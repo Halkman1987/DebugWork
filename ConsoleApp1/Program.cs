@@ -31,24 +31,11 @@ class Program
         /// Ввод возраста с проверкой на корректное число 
         string age;
         int intage;
-        Console.WriteLine("Введите свой возраст цифрами :");
-        age = Console.ReadLine();
-
-        while (CheckNum(age, out intage))
-        {
-            UserAnketa.Age = intage;
-        }
-        
-
-
-
-
-
         do 
         {
             Console.WriteLine("Введите свой возраст цифрами :");
             age = Console.ReadLine();
-        } while (CheckNum(age, out intage));
+        } while (!CheckNum(age, out intage));
 
         UserAnketa.Age = intage;
 
@@ -69,7 +56,8 @@ class Program
             UserAnketa.Pet = false;
             Console.WriteLine("У вас нет питомцев");
         }
-        
+        Console.WriteLine("Ваши питомцы : {pets} ");
+        Console.WriteLine(ShowPet(pets))
 
         Console.WriteLine("Напишите сколько у вас любимых цветов :");
         
@@ -85,6 +73,7 @@ class Program
     static bool CheckNum(string number, out int corrnumber)
     {
         corrnumber = 0;
+        //bool checkres = false;
         if (int.TryParse(number, out int intnum))
         {
             Console.WriteLine("Вы ввели возраст");
@@ -94,7 +83,7 @@ class Program
                 corrnumber = intnum;
                  return true;
             }
-           
+            return false; //checkres;
         }
         else
         {
@@ -124,7 +113,7 @@ class Program
             
             
         }
-        Console.WriteLine($"Ваших питомцы : {pets} ");
+        
         return pets;
     }
 
