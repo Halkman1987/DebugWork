@@ -57,7 +57,7 @@ class Program
             Console.WriteLine("У вас нет питомцев");
         }
         Console.WriteLine("Ваши питомцы : {pets} ");
-        Console.WriteLine(ShowPet(pets))
+        //Console.WriteLine(ShowPet(pets))
 
         Console.WriteLine("Напишите сколько у вас любимых цветов :");
         
@@ -73,7 +73,7 @@ class Program
     static bool CheckNum(string number, out int corrnumber)
     {
         corrnumber = 0;
-        //bool checkres = false;
+        
         if (int.TryParse(number, out int intnum))
         {
             Console.WriteLine("Вы ввели возраст");
@@ -83,7 +83,7 @@ class Program
                 corrnumber = intnum;
                  return true;
             }
-            return false; //checkres;
+            return false; 
         }
         else
         {
