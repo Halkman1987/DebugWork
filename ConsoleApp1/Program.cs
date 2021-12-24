@@ -168,7 +168,7 @@ namespace FirstApp
 
     }
 
-     class Triangle
+    class Triangle
     {
         private int Aa;
         private int Bb;
@@ -177,13 +177,13 @@ namespace FirstApp
         public int aa
         {
             get { return Aa; }
-            set 
+            set
             {
                 if (value > 0 && Bb + Cc > value)
                 {
                     Aa = value;
                 }
-               
+
             }
         }
         public int bb
@@ -197,7 +197,7 @@ namespace FirstApp
                 }
             }
         }
-        public int cc 
+        public int cc
         {
             get { return Cc; }
             set
@@ -208,7 +208,18 @@ namespace FirstApp
                 }
             }
         }
-    } 
+    }
+
+    class Product { }
+
+    class Ovishi : Product { }
+    class Frukt : Product { }
+    class Potato : Ovishi { }
+    class Carrot : Ovishi { }
+    class Apple : Frukt { }
+    class Pear : Frukt { }
+    class Banana : Frukt { }
+
 }
 
 
