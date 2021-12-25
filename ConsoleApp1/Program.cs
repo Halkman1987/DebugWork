@@ -219,7 +219,114 @@ namespace FirstApp
     class Apple : Frukt { }
     class Pear : Frukt { }
     class Banana : Frukt { }
+   
+    class Obj
+    {
+        //var obj = new Obj("Объект", "Нет описания");
+        
+        private string name;
+        private string owner;
+        private int length;
+        private int count;
+        public Obj(string name,string ownerName, int objLength, int count)
+        {
+            this.name = name;
+            owner = ownerName;
+            length = objLength;
+            this.count = count;
 
+        }
+        public Obj(string name, string description) : this() 
+        {
+            this.name = name;
+            this.description = description;
+        }
+        
+    }
+
+
+    class SmartHelper
+    {
+        private string name;
+
+        public SmartHelper(string name)
+        {
+            this.name = name;
+        }
+
+        public void Greetings(string name)
+        {
+            Console.WriteLine("Привет, {0}, я интеллектуальный помощник {1}",name,this.name );
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            SmartHelper helper = new SmartHelper("Олег");
+            helper.Greetings("Грег");
+
+            Console.ReadKey();
+        }
+
+    }
+
+
+
+
+    class BaseClass
+    {
+        protected string Name;
+        public virtual void Display()
+        {
+            Console.WriteLine("Метод класса BaseClass");
+        }
+        public BaseClass(string name)
+        {
+            Name = name;
+        }
+    }
+
+    class DerivedClass : BaseClass
+    {
+        public string Description;
+
+        public int Counter;
+        //BaseClass baseClass = new BaseClass(Name);
+        public  DerivedClass(string name, string description) : base(name)
+        {
+            
+            Description = description;
+        }
+        public DerivedClass(string name, string description, int counter) : base(name)
+        {
+            Counter = counter;
+            Description = description;
+
+        }
+        public override void Display()
+        {
+            Console.WriteLine("Метод класса DerivedClass");
+        }
+    }
+    class Creature { }
+
+    class Animal : Creature { }
+
+    class Human : Creature { }
+
+    class HomoSapiens : Human { }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            HomoSapiens hs = new HomoSapiens();
+            Human human = hs;
+            Creature creature = (Creature)human;
+            Creature secondCreature = new Animal();
+        }
+    }
 }
 
 
