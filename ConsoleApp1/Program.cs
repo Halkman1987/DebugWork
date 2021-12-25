@@ -276,6 +276,7 @@ namespace FirstApp
 
     class BaseClass
     {
+        public virtual int Counter { get; set; }
         protected string Name;
         public virtual void Display()
         {
@@ -290,9 +291,29 @@ namespace FirstApp
     class DerivedClass : BaseClass
     {
         public string Description;
+        private int counter;
+        public override int Counter 
+        { 
+            get
+            {
+                return counter;
+            }
 
-        public int Counter;
+            set
+            {
+                if (value >= 0)
+                {
+                    counter = value;
+                }
+            }
+        }
         //BaseClass baseClass = new BaseClass(Name);
+        public override void Display() 
+        {
+            base.Display();
+            Console.WriteLine("Метод класса DerivedClass");
+        }
+
         public  DerivedClass(string name, string description) : base(name)
         {
             
@@ -304,10 +325,7 @@ namespace FirstApp
             Description = description;
 
         }
-        public override void Display()
-        {
-            Console.WriteLine("Метод класса DerivedClass");
-        }
+       
     }
     class Creature { }
 
@@ -317,7 +335,7 @@ namespace FirstApp
 
     class HomoSapiens : Human { }
 
-    class Program
+    class Programm
     {
         static void Main(string[] args)
         {
@@ -325,6 +343,9 @@ namespace FirstApp
             Human human = hs;
             Creature creature = (Creature)human;
             Creature secondCreature = new Animal();
+
+            DerivedClass obj = new DerivedClass();
+            obj.Display();
         }
     }
 }
