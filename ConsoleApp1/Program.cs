@@ -5,11 +5,14 @@ class Program
 
     public static void Main(string[] args)
     {
+        
         (string Name, string Oldname, int Age, string[] Pet, string[] favcolors) UserAnketa;
 
         UserAnketa = Anketa();
         Console.WriteLine();
         Console.WriteLine("-----------------------------------------------------------");
+        Console.WriteLine();
+        Console.WriteLine();
         PrintUser(UserAnketa.Name, UserAnketa.Oldname, UserAnketa.Age, UserAnketa.Pet, UserAnketa.favcolors);
 
     }
@@ -17,10 +20,10 @@ class Program
 
     static (string Name, string Oldname, int Age, string[] pitom, string[] col) Anketa()
     {
-        Console.WriteLine("Введите имя :");
+        Console.WriteLine("Введите ваше Имя :");
         var Name = Console.ReadLine();
        
-        Console.WriteLine("Введите Фамилию :");
+        Console.WriteLine("Введите вашу Фамилию :");
         var Oldname = Console.ReadLine();
 
         /// Ввод возраста с проверкой на корректное число 
@@ -42,7 +45,7 @@ class Program
         string[] pitom = new string[0];
         if (result == "Да")
         {
-            Console.WriteLine("Укажите сколько у вас питомцев : ");
+            Console.WriteLine("Укажите сколько у вас питомцев (цифрами) : ");
             int pets = Convert.ToInt32(Console.ReadLine());
             pitom = ShowPet(pets);
 
@@ -75,7 +78,7 @@ class Program
 
         if (int.TryParse(number, out int intnum))
         {
-            Console.WriteLine("Вы ввели возраст");
+            
             if (intnum > 0)
             {
                 corrnumber = intnum;
