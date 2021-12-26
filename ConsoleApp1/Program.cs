@@ -5,9 +5,8 @@ class Program
 
     public static void Main(string[] args)
     {
-        
-        (string Name, string Oldname, int Age, string[] Pet, string[] favcolors) UserAnketa;
 
+        (string Name, string Oldname, int Age, string[] Pet, string[] favcolors) UserAnketa;
         UserAnketa = Anketa();
         Console.WriteLine();
         Console.WriteLine("-----------------------------------------------------------");
@@ -20,11 +19,13 @@ class Program
 
     static (string Name, string Oldname, int Age, string[] pitom, string[] col) Anketa()
     {
+       
         Console.WriteLine("Введите ваше Имя :");
         var Name = Console.ReadLine();
-       
+
         Console.WriteLine("Введите вашу Фамилию :");
         var Oldname = Console.ReadLine();
+
 
         /// Ввод возраста с проверкой на корректное число 
         int Age;
@@ -54,23 +55,24 @@ class Program
         {
             Console.WriteLine("У вас нет питомцев");
         }
-        
+
 
         Console.WriteLine();
 
-        Console.WriteLine("Напишите сколько у вас любимых цветов :");
+        Console.WriteLine("Напишите сколько у вас любимых цветов цифрами:");
         string[] col = new string[0];
         int favcolors;
         favcolors = Convert.ToInt32(Console.ReadLine());
         col = ShowColor(favcolors);
 
         Console.WriteLine();
-        
-        
+
+
 
         return (Name, Oldname, Age, pitom, col);
     }
-
+    
+    
     // Проверка введенных данных 
     static bool CheckNum(string number, out int corrnumber)
     {
@@ -78,8 +80,8 @@ class Program
 
         if (int.TryParse(number, out int intnum))
         {
-            
-            if (intnum > 0)
+
+            if (intnum > 0 && intnum < 100)
             {
                 corrnumber = intnum;
                 return true;
@@ -133,10 +135,11 @@ class Program
     {
         Console.WriteLine();
         Console.WriteLine("Выводим сводные данные про Пользователя :");
+        Console.WriteLine();
         Console.WriteLine($"Ваше имя и фамилия: {Name}  {Oldname}");
         Console.WriteLine($"Вам {Age} лет");
         Console.WriteLine("У вас имеются данные питомцы :");
-        foreach(var item in Pet)
+        foreach (var item in Pet)
         {
             Console.WriteLine(item);
         }
