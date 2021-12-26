@@ -5,138 +5,140 @@ class Program
 
     public static void Main(string[] args)
     {
-        (string Name, string Oldname, int Age, bool Pet, int favcolors) UserAnketa;
+        (string Name, string Oldname, int Age, string[] Pet, string[] favcolors) UserAnketa;
 
         UserAnketa = Anketa();
-
-        PrintUser(UserAnketa);
+        Console.WriteLine();
+        Console.WriteLine("-----------------------------------------------------------");
+        PrintUser(UserAnketa.Name, UserAnketa.Oldname, UserAnketa.Age, UserAnketa.Pet, UserAnketa.favcolors);
 
     }
 
-    static (string Name, string Oldname, int Age, bool Pet, int favcolors) Anketa() 
+
+    static (string Name, string Oldname, int Age, string[] pitom, string[] col) Anketa()
     {
-
-        (string Name, string Oldname, int Age, bool Pet, int favcolors) UserAnketa;
-
         Console.WriteLine("Введите имя :");
-       UserAnketa.Name = Console.ReadLine();
+        var Name = Console.ReadLine();
        
-
         Console.WriteLine("Введите Фамилию :");
-        UserAnketa.Oldname = Console.ReadLine();
-        
-        
-
+        var Oldname = Console.ReadLine();
 
         /// Ввод возраста с проверкой на корректное число 
+        int Age;
         string age;
         int intage;
-        do 
+        do
         {
             Console.WriteLine("Введите свой возраст цифрами :");
             age = Console.ReadLine();
         } while (!CheckNum(age, out intage));
+        Age = intage;
 
-        UserAnketa.Age = intage;
 
-      
         /// Ввод количества питомцев если есть 
+       // string[] Pet;
         Console.WriteLine("Имеется ли у вас питомец Да/Нет :");
         var result = Console.ReadLine();
-
+        string[] pitom = new string[0];
         if (result == "Да")
         {
             Console.WriteLine("Укажите сколько у вас питомцев : ");
             int pets = Convert.ToInt32(Console.ReadLine());
-            ShowPet(pets);
+            pitom = ShowPet(pets);
 
         }
-        //(result == "Нет")
+        else
         {
-            UserAnketa.Pet = false;
             Console.WriteLine("У вас нет питомцев");
         }
-        Console.WriteLine("Ваши питомцы : {pets} ");
-        //Console.WriteLine(ShowPet(pets))
+        
+
+        Console.WriteLine();
 
         Console.WriteLine("Напишите сколько у вас любимых цветов :");
-        
-        
-        UserAnketa.favcolors = Convert.ToInt32(Console.ReadLine());
-        ShowColor(UserAnketa.favcolors);
-       // Console.WriteLine(ShowColor(colors));
+        string[] col = new string[0];
+        int favcolors;
+        favcolors = Convert.ToInt32(Console.ReadLine());
+        col = ShowColor(favcolors);
 
-        return Anketa();
+        Console.WriteLine();
+        
+        
+
+        return (Name, Oldname, Age, pitom, col);
     }
 
     // Проверка введенных данных 
     static bool CheckNum(string number, out int corrnumber)
     {
         corrnumber = 0;
-        
+
         if (int.TryParse(number, out int intnum))
         {
             Console.WriteLine("Вы ввели возраст");
             if (intnum > 0)
             {
-                
                 corrnumber = intnum;
-                 return true;
+                return true;
             }
-            return false; 
+            return false;
         }
         else
         {
             corrnumber = 0;
             return false;
         }
-        
+
     }
 
 
     //  Создаем массив кличек питомце по введенному колличеству  
     static string[] ShowPet(int num)
     {
-        var pets = new string[num];
+        var Pets = new string[num];
         if (num == 1)
         {
             Console.WriteLine("Напишите кличку вашего питомца :");
-            var pet = Console.ReadLine();
+            Pets[0] = Console.ReadLine();
         }
         else if (num > 1)
         {
-            for (int i = 0; i < num ; i++)
+            for (int i = 0; i < num; i++)
             {
-                Console.WriteLine($"Напишите кличку {i+1} питомца :");
-                pets[i] = Console.ReadLine();
+                Console.WriteLine($"Напишите кличку {i + 1} питомца :");
+                Pets[i] = Console.ReadLine();
             }
-            
-            
         }
-        
-        return pets;
+        return Pets;
     }
 
     //  Ввод размера массива цветов, ввод их с консоли и передача обратно 
     public static string[] ShowColor(int fav)
     {
         string[] colors = new string[fav];
-        for (int i = 0;i < colors.Length ; i++)
+        for (int i = 0; i < colors.Length; i++)
         {
-            Console.WriteLine($"Напишите ваш любимый цвет номер {i +1} ");
+            Console.WriteLine($"Напишите ваш любимый цвет номер {i + 1} ");
             colors[i] = Console.ReadLine();
-
-
         }
-        Console.WriteLine(colors);
         return colors;
     }
 
 
     ///Печать анкеты 
-    static void PrintUser ((string Name, string Oldname, int Age, bool Pet, int favcolors) UserAnketa)
+    static void PrintUser(string Name, string Oldname, int Age, string[] Pet, string[] favcolors)
     {
-
+        Console.WriteLine();
+        Console.WriteLine("Выводим сводные данные про Пользователя :");
+        Console.WriteLine($"Ваше имя и фамилия: {Name}  {Oldname}");
+        Console.WriteLine($"Вам {Age} лет");
+        Console.WriteLine("У вас имеются данные питомцы :");
+        foreach(var item in Pet)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine("Ваши любимые цвета :");
+        foreach (var item in favcolors) { Console.WriteLine(item); }
     }
 
 }
