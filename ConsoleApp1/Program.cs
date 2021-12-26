@@ -2,6 +2,9 @@
 
 namespace FirstApp
 {
+    /// <summary>
+    /// Запись ссылок в виде переменной между классами 
+    /// </summary>
     class Company
     {
         public string Type;
@@ -125,7 +128,7 @@ namespace FirstApp
     class User
     {
         private string login;
-        private string Login
+        public string Login
         {
             get
             {
@@ -167,7 +170,7 @@ namespace FirstApp
 
 
     }
-
+    // ---------- Опредение треугольника с проверкой его сторон на сумму ------------------------------------
     class Triangle
     {
         private int Aa;
@@ -209,25 +212,34 @@ namespace FirstApp
             }
         }
     }
-
-    class Product { }
-
-    class Ovishi : Product { }
-    class Frukt : Product { }
-    class Potato : Ovishi { }
-    class Carrot : Ovishi { }
-    class Apple : Frukt { }
-    class Pear : Frukt { }
-    class Banana : Frukt { }
-   
+    //--------------------------------------------------------------------------------------------------------
+    
     class Obj
     {
-        //var obj = new Obj("Объект", "Нет описания");
-        
+        //перегрузка операторов + и - 
+        public int Value;
+        public static Obj operator +(Obj a, Obj b)
+        {
+            return new Obj
+            {
+                Value = a.Value + b.Value,
+            };
+        }
+        public static Obj operator - (Obj a, Obj b)
+        {
+            return new Obj
+            {
+                Value = a.Value - b.Value,
+            };
+        }
+
         private string name;
         private string owner;
         private int length;
         private int count;
+        private string description;
+        // Это конструктор ( т.к. имеет имя КЛАССА в котором он объявлен. В него из Main нужно будет передать данные , но сначала сделать ссылку на него ( var obj = new Obj("Объект", "Нет описания")
+        // И в скобках указать значения которые мы передаем ему ,по количеству переменных)
         public Obj(string name,string ownerName, int objLength, int count)
         {
             this.name = name;
@@ -244,22 +256,24 @@ namespace FirstApp
         
     }
 
-
+    // ---------------------- Ввод имени через приватную name и через метод  Greetings(string name) с передачей аргумента заранее вписанного -------------------
     class SmartHelper
     {
-        private string name;
-
+        private string Name;
+        // тут мы передали "Олег" в name конструктору в Main через SmartHelper helper = new SmartHelper("Олег");
         public SmartHelper(string name)
         {
-            this.name = name;
+            this.Name = name;
         }
 
+        // Тут выполнили метод Greetings(string name) котрый принимает в Main  через объявленнкую переменную helper для класса SmartHelper и через точку указывается метод в этом классе который мы вызываем : helper.Greetings("Грег");
+        // в методе есть переменная name которой присваивается значение аргумента helper.Greetings("Грег");
         public void Greetings(string name)
         {
-            Console.WriteLine("Привет, {0}, я интеллектуальный помощник {1}",name,this.name );
+            Console.WriteLine("Привет, {0}, я интеллектуальный помощник {1}",name,this.Name );
         }
     }
-    class Program
+    class Programm
     {
         static void Main(string[] args)
         {
@@ -267,6 +281,15 @@ namespace FirstApp
             helper.Greetings("Грег");
 
             Console.ReadKey();
+
+            //для 
+            HomoSapiens hs = new HomoSapiens();
+            Human human = hs;
+            Creature creature = (Creature)human;
+            Creature secondCreature = new Animal();
+
+            DerivedClass obj = new DerivedClass("dFCZ", "dfvfv");
+            obj.Display();
         }
 
     }
@@ -307,7 +330,7 @@ namespace FirstApp
                 }
             }
         }
-        //BaseClass baseClass = new BaseClass(Name);
+       
         public override void Display() 
         {
             base.Display();
@@ -335,17 +358,73 @@ namespace FirstApp
 
     class HomoSapiens : Human { }
 
-    class Programm
-    {
-        static void Main(string[] args)
-        {
-            HomoSapiens hs = new HomoSapiens();
-            Human human = hs;
-            Creature creature = (Creature)human;
-            Creature secondCreature = new Animal();
 
-            DerivedClass obj = new DerivedClass();
-            obj.Display();
+    // ----------------------  7.2.7 ----------------------- 
+    class A 
+    {
+        public virtual void Display()
+        {
+            Console.WriteLine("A");
+        }
+    }
+    class B : A
+    {
+        public new void Display()
+        {
+            Console.WriteLine("B");
+        }
+    }
+    class C : A
+    {
+        public override void Display()
+        {
+            Console.WriteLine("C");
+        }
+    }
+    class D : B 
+    {
+        public new void Display()
+        {
+            Console.WriteLine("D");
+        }
+    }
+    class E : C 
+    {
+        public new void Display()
+        {
+            Console.WriteLine("E");
+        }
+    }
+
+
+    class Vector
+    {
+        public int X;
+        public int Y;
+        //    Метод с перезагрузкой оператора " + "
+        public static Vector operator + (Vector a, Vector b)  //Vector Add(Vector second)
+        {
+            return new Vector
+            {
+                X = a.X + b.X,
+                Y = a.Y + b.Y
+            };
+        }
+    }
+   
+    
+    class IndexingClass
+    {
+        private int[] array;
+
+        public IndexingClass(int[] array)
+        {
+            this.array = array;
+        }
+        public int this[int index]
+        {
+            get { return array[index];}
+            set { array[index] = value; }
         }
     }
 }
