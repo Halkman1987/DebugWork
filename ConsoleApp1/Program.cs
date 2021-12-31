@@ -2,9 +2,131 @@
 
 namespace FirstApp
 {
-    /// <summary>
-    /// Запись ссылок в виде переменной между классами 
-    /// </summary>
+    // --------------------------------- 7.6.7
+    class Differential { }
+    class Wheel { }
+
+    class Battery { }
+
+    class Car<T1,T2>
+    {
+        public T1 Engine;
+        public virtual void ChangePart<T2>(T2 newPart) { }
+    }
+
+
+    // ---------------------------------7.6.6 --------------------------------------------
+    class Record<T1,T2>
+    {
+        public T1 Id;
+        public T2 Value;
+        public DateTime Date;
+    }
+    
+    
+    // ----------------------------------7.6.2 -------------------------------------------
+    class Car<T>
+    {
+        public T Engine;
+    }
+    class ElectricEngine
+    {
+
+    }
+    class GasEngine
+    {
+
+    }
+
+    // ------------------------------------ 7.5.9 ---------------------------------------
+
+    static class Int 
+    {
+       public static int GetNegative(this int num0) 
+        {
+         if (num0 < 0)
+            {
+                return num0;
+            }
+         else
+            {
+                return -num0;
+            }
+        }
+        public static int GetPositive(this int num0)
+        {
+
+        }
+
+    }
+
+
+
+    // ----------------------------------- 7.5.5 --------------------------------------
+    class Obj2
+    {
+        public string Name;
+        public string Description;
+
+        public static string Parent;
+        public static int DaysInWeek;
+        public static int MaxValue;
+        static Obj2()
+        {
+            Parent = "System.Object";
+            DaysInWeek = 7;
+            MaxValue = 2000;
+        }
+    }
+
+
+    // ------------------------------------ 7.5.3 --------------------------------------
+    class Helper
+    {
+        
+        public static void Swap(ref int num1,ref int num2)
+        {
+            int a = num1;
+            num1 = num2;
+            num2 = a;
+            Console.WriteLine(num1);
+            Console.WriteLine(num2);
+        }
+    }
+
+
+    // ------------------------------------ 7.5.2 --------------------------------------------
+    class Obj1
+    {
+        public string Name;
+        public string Description;
+        public static int MaxValue = 2000;
+        public int Value;
+        public Obj1 (int value)
+        {
+            this.Value = MaxValue;
+        }
+    }
+
+
+    // --------------------------------------- 7.3.3 ---------------------------------------
+    abstract class ComputerPart 
+    {
+        public abstract void Work();
+    }
+    class Processor : ComputerPart
+    {
+        public override void Work() { }
+    }
+    class MotherBoard : ComputerPart
+    {
+        public override void Work() { }
+    }
+    class GraphicCard : ComputerPart
+    {
+        public override void Work() { }
+    }
+
     class Company
     {
         public string Type;
@@ -29,12 +151,15 @@ namespace FirstApp
 
         static void Main(string[] args)
         {
+            int num1 = 3;
+            int num2 = 58;
+            Helper.Swap(ref num1, ref num2);
+            
             TrafficLight trafficLight = new TrafficLight();
             trafficLight.Agge = 34;
 
             Office office = new Office();
-
-
+            
             if (office.Otdel.Type == "ГИП" && office.Comp.Ar == "Power")
             {
                 Console.WriteLine("В отделе {0} на {1} этаже ", office?.Otdel?.Rang ?? "Главный архитектор", office?.Otdel?.Etag);
@@ -43,7 +168,7 @@ namespace FirstApp
             {
                 Console.WriteLine("Fuck you");
             }
-            // var department = GetCurrentDepartment();
+            
         }
     }
 
@@ -116,10 +241,6 @@ namespace FirstApp
 
         }
 
-        public string GetColor()
-        {
-
-        }
     }
 
     /// <summary>
@@ -214,47 +335,47 @@ namespace FirstApp
     }
     //--------------------------------------------------------------------------------------------------------
     
-    class Obj
-    {
-        //перегрузка операторов + и - 
-        public int Value;
-        public static Obj operator +(Obj a, Obj b)
-        {
-            return new Obj
-            {
-                Value = a.Value + b.Value,
-            };
-        }
-        public static Obj operator - (Obj a, Obj b)
-        {
-            return new Obj
-            {
-                Value = a.Value - b.Value,
-            };
-        }
+    //class Obj
+    //{
+    //    //перегрузка операторов + и - 
+    //    public int Value;
+    //    public static Obj operator +(Obj a, Obj b)
+    //    {
+    //        return new Obj
+    //        {
+    //            Value = a.Value + b.Value,
+    //        };
+    //    }
+    //    public static Obj operator - (Obj a, Obj b)
+    //    {
+    //        return new Obj
+    //        {
+    //            Value = a.Value - b.Value,
+    //        };
+    //    }
 
-        private string name;
-        private string owner;
-        private int length;
-        private int count;
-        private string description;
-        // Это конструктор ( т.к. имеет имя КЛАССА в котором он объявлен. В него из Main нужно будет передать данные , но сначала сделать ссылку на него ( var obj = new Obj("Объект", "Нет описания")
-        // И в скобках указать значения которые мы передаем ему ,по количеству переменных)
-        public Obj(string name,string ownerName, int objLength, int count)
-        {
-            this.name = name;
-            owner = ownerName;
-            length = objLength;
-            this.count = count;
+    //    private string name;
+    //    private string owner;
+    //    private int length;
+    //    private int count;
+    //    private string description;
+    //    // Это конструктор ( т.к. имеет имя КЛАССА в котором он объявлен. В него из Main нужно будет передать данные , но сначала сделать ссылку на него ( var obj = new Obj("Объект", "Нет описания")
+    //    // И в скобках указать значения которые мы передаем ему ,по количеству переменных)
+    //    public Obj(string name,string ownerName, int objLength, int count)
+    //    {
+    //        this.name = name;
+    //        owner = ownerName;
+    //        length = objLength;
+    //        this.count = count;
 
-        }
-        public Obj(string name, string description) : this() 
-        {
-            this.name = name;
-            this.description = description;
-        }
+    //    }
+    //    public Obj(string name, string description) //: this() 
+    //    {
+    //        this.name = name;
+    //        this.description = description;
+    //    }
         
-    }
+    //}
 
     // ---------------------- Ввод имени через приватную name и через метод  Greetings(string name) с передачей аргумента заранее вписанного -------------------
     class SmartHelper
@@ -273,26 +394,26 @@ namespace FirstApp
             Console.WriteLine("Привет, {0}, я интеллектуальный помощник {1}",name,this.Name );
         }
     }
-    class Programm
-    {
-        static void Main(string[] args)
-        {
-            SmartHelper helper = new SmartHelper("Олег");
-            helper.Greetings("Грег");
+    //class Programm
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        SmartHelper helper = new SmartHelper("Олег");
+    //        helper.Greetings("Грег");
 
-            Console.ReadKey();
+    //        Console.ReadKey();
 
-            //для 
-            HomoSapiens hs = new HomoSapiens();
-            Human human = hs;
-            Creature creature = (Creature)human;
-            Creature secondCreature = new Animal();
+    //        //для 
+    //        HomoSapiens hs = new HomoSapiens();
+    //        Human human = hs;
+    //        Creature creature = (Creature)human;
+    //        Creature secondCreature = new Animal();
 
-            DerivedClass obj = new DerivedClass("dFCZ", "dfvfv");
-            obj.Display();
-        }
+    //        DerivedClass obj = new DerivedClass("dFCZ", "dfvfv");
+    //        obj.Display();
+    //    }
 
-    }
+    //}
 
 
 
