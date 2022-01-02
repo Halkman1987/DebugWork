@@ -2,18 +2,37 @@
 
 namespace FirstApp
 {
+    // ---------------------------------- 7.6.9 ---------------------------------
+    abstract class Car<TEngine,TPart>where TEngine : Engine
+    {
+
+        public TEngine Engine;
+        
+        public virtual void ChangePart<TPart>(TPart newPart) where TPart : CarPart { }
+    }
+    abstract class Engine { }
+    
+    class ElectricEngine : Engine { }
+    class GasEngine : Engine { }
+
+    abstract class CarPart { }
+    class Differential : CarPart { }
+    class Wheel : CarPart { }
+    class Battery : CarPart  { }
+
     // --------------------------------- 7.6.7
-    class Differential { }
+   /* class Differential { }
     class Wheel { }
 
     class Battery { }
 
     class Car<T1,T2>
     {
+        
         public T1 Engine;
         public virtual void ChangePart<T2>(T2 newPart) { }
     }
-
+   */
 
     // ---------------------------------7.6.6 --------------------------------------------
     class Record<T1,T2>
@@ -25,7 +44,7 @@ namespace FirstApp
     
     
     // ----------------------------------7.6.2 -------------------------------------------
-    class Car<T>
+    /*class Car<T>
     {
         public T Engine;
     }
@@ -36,7 +55,7 @@ namespace FirstApp
     class GasEngine
     {
 
-    }
+    }*/
 
     // ------------------------------------ 7.5.9 ---------------------------------------
 
