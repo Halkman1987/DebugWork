@@ -1,514 +1,227 @@
 ﻿using System;
+using System.Collections.Generic;
+
 class Program
 {
-    //------------------------------------------ ИТОГОВОЕ ЗАДАНИЕ 5.6 ----------------------------------------------------
 
     public static void Main(string[] args)
     {
+        User user = new User();
+        Console.WriteLine("Введите ваше имя : ");
+        user.Name = Console.ReadLine();
+        Console.WriteLine("Введите вашу фамилию : ");
+        user.Family = Console.ReadLine();
+        Console.WriteLine("Введите ваш номер телефона :");
+        user.Telephone = Console.ReadLine();
 
-        (string Name, string Oldname, int Age, string[] Pet, string[] favcolors) UserAnketa;
-        UserAnketa = Anketa();
-        Console.WriteLine();
-        Console.WriteLine("-----------------------------------------------------------");
-        Console.WriteLine();
-        Console.WriteLine();
-        PrintUser(UserAnketa.Name, UserAnketa.Oldname, UserAnketa.Age, UserAnketa.Pet, UserAnketa.favcolors);
+        Console.WriteLine("Выберите товар и укажите количесвто :");
+        string tov = Console.ReadLine();
+        switch (tov)
+        {
+            case 1:
+                Console.WriteLine("ganteli");
+                break;
+            case 2:
+                Console.WriteLine();
+                break;
+            case 3:
 
+
+        }
+        
+        
+        List<string> tovar = new List<string>();
+
+
+        Order<Delivery> order = new Order<Delivery>();
+        
+        Product product = new Gantel();
+        
+
+        Console.WriteLine("Выберите способ доставки:\n 1 - Если нужна доставка на дом \n 2 - Если требуется доставка до Постамата \n 3 - Если вы хотите забрать товар из магазина");
+        int change = Convert.ToInt32(Console.ReadLine());
+        switch (change)
+        {
+            case 1:
+                order.Delivery = new HomeDelivery();
+
+                Console.WriteLine("Вы выбрали доставку на дом, введите свой адрес для доставки :");
+
+                Adress adress = new Adress();
+
+                Console.WriteLine("Введите индекс вашего населеннго пункта :");
+                adress.indexcity = Console.ReadLine();
+                Console.WriteLine("Введите ваш город :");
+                adress.city = Console.ReadLine();
+                Console.WriteLine("Введите вашу улицу :");
+                adress.street = Console.ReadLine();
+                Console.WriteLine("Введите номер дома :");
+                adress.house = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Введите номер квартиры:");
+                adress.appartment = Convert.ToInt32(Console.ReadLine());
+                break;
+            case 2:
+                Console.WriteLine("Вы выбрали доставку в постамат");
+
+                Console.WriteLine(PickPointDelivery.boxnumber);
+                break;
+            case 3:
+                Console.WriteLine("Вы выбрали доставку в магазин");
+                Console.WriteLine(ShopDelivery.shopadress);
+
+                break;
+        }
+
+
+        /*Product P1 = new Product(1, "Футболка с длинным рукавом", 1518.2, Product.Type.Футболка, "Вьетнам", Product.Sex.Men, "XXL");
+        Product P2 = new Product(2, "Кроссовки беговые", 5450, Product.Type.Кроссовки, "Китай", Product.Sex.Women, "38");
+        Product P3 = new Product(3, "Шорты теннисные", 2030, Product.Type.Шорты, "Тайланд", Product.Sex.Men, "L");
+        Product P4 = new Product(4, "Футболка с коротким рукавом", 1318.8, Product.Type.Футболка, "Вьетнам", Product.Sex.Men, "XL");
+        Product P5 = new Product(5, "Футболка с коротким рукавом", 1420.8, Product.Type.Футболка, "Вьетнам", Product.Sex.Women, "M");*/
+        // Ввод адреса
+
+        Random random = new Random();
+        int a;
+        a = random.Next(100);
     }
 
-
-    static (string Name, string Oldname, int Age, string[] pitom, string[] col) Anketa()
+    abstract class Delivery
     {
+        public Adress adress;
+    }
+
+    class HomeDelivery : Delivery
+    {
+        
+        public string viphome;
+        public void SetHome()
+        {
+
+        }
+    }
+
+    class PickPointDelivery : Delivery
+    {
+        public int boxnumber = 349035;
+    }
+
+    class ShopDelivery : Delivery
+    {
+        public string shopadress = "г.Уфа, ул.Черниковская 87 ";
+    }
+
+    // Заказ 
+    class Order<TDelivery> where TDelivery : Delivery
+    {
+        public TDelivery Delivery;
+
+        public int Number;
+
+        public string Description;
+
+        public Product Product;
+
        
-        Console.WriteLine("Введите ваше Имя :");
-        var Name = Console.ReadLine();
 
-        Console.WriteLine("Введите вашу Фамилию :");
-        var Oldname = Console.ReadLine();
-
-
-        /// Ввод возраста с проверкой на корректное число 
-        int Age;
-        string age;
-        int intage;
-        do
+        public void DisplayAddress()
         {
-            Console.WriteLine("Введите свой возраст цифрами :");
-            age = Console.ReadLine();
-        } while (!CheckNum(age, out intage));
-        Age = intage;
-
-
-        /// Ввод количества питомцев если есть 
-       // string[] Pet;
-        Console.WriteLine("Имеется ли у вас питомец Да/Нет :");
-        var result = Console.ReadLine();
-        string[] pitom = new string[0];
-        if (result == "Да")
-        {
-            Console.WriteLine("Укажите сколько у вас питомцев (цифрами) : ");
-            int pets = Convert.ToInt32(Console.ReadLine());
-            pitom = ShowPet(pets);
-
+            Console.WriteLine(Delivery.adress);
         }
-        else
-        {
-            Console.WriteLine("У вас нет питомцев");
-        }
+        //private Product product;
+        //public Order (Product product)
+        //{
+        //    this.product = product;
+        //}
 
-
-        Console.WriteLine();
-
-        Console.WriteLine("Напишите сколько у вас любимых цветов цифрами:");
-        string[] col = new string[0];
-        int favcolors;
-        favcolors = Convert.ToInt32(Console.ReadLine());
-        col = ShowColor(favcolors);
-
-        Console.WriteLine();
-
-
-
-        return (Name, Oldname, Age, pitom, col);
+        // ... Другие поля
     }
-    
-    
-    // Проверка введенных данных 
-    static bool CheckNum(string number, out int corrnumber)
+    abstract class Product
     {
-        corrnumber = 0;
-
-        if (int.TryParse(number, out int intnum))
+        public int much;
+        public string snaryad;
+        public virtual void SetTovar(int num)
         {
+            Console.WriteLine("Укажите количество товаров :");
 
-            if (intnum > 0 && intnum < 100)
-            {
-                corrnumber = intnum;
-                return true;
-            }
-            return false;
         }
-        else
+        public Product(int much)
         {
-            corrnumber = 0;
-            return false;
+            this.much = much;
         }
-
     }
-
-
-    //  Создаем массив кличек питомце по введенному колличеству  
-    static string[] ShowPet(int num)
+    class Gantel : Product
     {
-        var Pets = new string[num];
-        if (num == 1)
-        {
-            Console.WriteLine("Напишите кличку вашего питомца :");
-            Pets[0] = Console.ReadLine();
-        }
-        else if (num > 1)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                Console.WriteLine($"Напишите кличку {i + 1} питомца :");
-                Pets[i] = Console.ReadLine();
-            }
-        }
-        return Pets;
-    }
+        
+        public string gantel = "Гантель";
 
-    //  Ввод размера массива цветов, ввод их с консоли и передача обратно 
-    public static string[] ShowColor(int fav)
+        public Gantel() : base(much)
+        {
+
+        }
+        public override void SetTovar(int NumTov)
+        {
+
+        }
+    }
+    class Girya : Product
     {
-        string[] colors = new string[fav];
-        for (int i = 0; i < colors.Length; i++)
+        public string girya = "Гиря";
+        public override void SetTovar(int NumTov)
         {
-            Console.WriteLine($"Напишите ваш любимый цвет номер {i + 1} ");
-            colors[i] = Console.ReadLine();
+
         }
-        return colors;
     }
-
-
-    ///Печать анкеты 
-    static void PrintUser(string Name, string Oldname, int Age, string[] Pet, string[] favcolors)
+    class Shanga : Product
     {
-        Console.WriteLine();
-        Console.WriteLine("Выводим сводные данные про Пользователя :");
-        Console.WriteLine();
-        Console.WriteLine($"Ваше имя и фамилия: {Name}  {Oldname}");
-        Console.WriteLine($"Вам {Age} лет");
-        Console.WriteLine("У вас имеются данные питомцы :");
-        foreach (var item in Pet)
+        public string shtanga = "Штанга";
+        public override void SetTovar(int NumTov)
         {
-            Console.WriteLine(item);
+
         }
-        Console.WriteLine("Ваши любимые цвета :");
-        foreach (var item in favcolors) { Console.WriteLine(item); }
     }
+    class Blini : Product
+    {
+        public string blin = "Блин";
+        public override void SetTovar(int NumTov)
+        {
+
+        }
+    }
+
+   
+    public class Adress
+    {
+        private string IndexCity;
+        private string City;
+        private string Street;
+        private int House;
+        private int Appartment;
+        public string indexcity { get { return IndexCity; } set { IndexCity = value; } }
+        public string city { get { return City; } set { City = value; } }
+        public string street { get { return Street; } set { Street = value; } }
+        public int house { get { return House; } set { House = value; } }
+        public int appartment { get { return Appartment; } set { Appartment = value; } }
+
+        public Adress(string index, string city, string street, int house, int appart)
+        {
+            indexcity = index;
+            this.city = city;
+            this.street = street;
+            this.house = house;
+            appartment = appart;
+        }
+
+        public Adress()
+        {
+        }
+    }
+   
+    public class User
+    {
+        public string Name;
+        public string Family;
+        public string Telephone;
+    }
+
 
 }
-
-////--------------------------------------- Модуль 5.5.4 ФАКТОРИАЛ -------------------------------
-//public static void Main(string[] args)
-//{
-//    //decimal res;
-//    //Console.WriteLine("Напишите  число  :");
-//    //int num = int.Parse(Console.ReadLine());   
-//    //res = Factorial(num);
-//    //Console.WriteLine("факториал числа {0} = {1}", num, res);
-//    // Console.ReadKey();  
-
-//    Console.WriteLine("введите число");
-//    int N = int.Parse(Console.ReadLine());
-//    Console.WriteLine("введите степень :");
-//    byte pow = byte.Parse(Console.ReadLine());
-//    PowerUp(N, pow);
-//    Console.WriteLine(N + ",");
-
-
-//}
-
-//private static int PowerUp(int N, byte pow)
-//{
-//    if (pow == 0)
-//    {
-//        return 1;
-//    }
-//    else
-//    {
-//        if (pow == 1)
-//        {
-//            return N;
-//        }
-//        else
-//        {
-//            return N = N * PowerUp(N, --pow);
-//        }
-
-//    }
-
-
-//}
-// static decimal Factorial(int x)
-/*  {
-      if (x == 0)
-      {
-          return 1;
-      }
-      else
-      {
-             return x * Factorial(x - 1);
-      }
-
-  }
-*/
-//---------------------------------- КОНЕЦ -----------------------------------
-
-
-////--------------------------------------- Модуль 5.5.4 РЕКУРСИЯ -------------------------------
-//public static void Main(string[] args)
-//{
-//    Console.WriteLine("Напишите что-то");
-
-//    var str = Console.ReadLine();
-
-//    Console.WriteLine("Укажите глубину эха");
-
-//    var deep = int.Parse(Console.ReadLine());
-
-//    Echo(str, deep);
-
-//    Console.ReadKey();
-
-//}
-
-//static void Echo(string said, int deep)
-//{
-//    //Console.WriteLine(phrase + "Наша фраза");
-
-//    var modif = said;
-
-//    if (modif.Length > 2)
-//    {
-//        modif = modif.Remove(0, 2);
-
-//    }
-//    Console.BackgroundColor = (ConsoleColor)deep;
-//    Console.WriteLine("...." + modif);
-
-
-//    if (deep > 1)
-//    {
-//        Echo(modif, deep - 1);
-//    }
-
-
-//}
-////---------------------------------- КОНЕЦ -----------------------------------
-
-
-////--------------------------- НАЧАЛО 5.3.13 ---------------------------------------
-//public static void Main(string[] args)
-//{
-//    int[] Array = GetArrayFromConsole();
-
-//    SortArray(Array);
-
-
-//}
-//static int[] GetArrayFromConsole(int num = 10)
-//{
-//    var result = new int[num];
-
-//    for (int i = 0; i < result.Length; i++)
-//    {
-//        Console.WriteLine("Введите элемент массива номер {0}", i + 1);
-//        result[i] = int.Parse(Console.ReadLine());
-
-//    }
-
-
-//    return result;
-//}
-//static void SortArray(in int[] Array, out int[] sorteddesc, out int[] sortedasc)
-//{
-//    sorteddesc = SortArrayDesc(Array);
-//    sortedasc = SortArrayAsc(Array);
-
-//}
-//static int[] SortArrayDesc(int[] result)
-//{
-
-//    int tmp = 0;
-//    for (int i = 0; i < result.Length; i++)
-//        for (int j = i + 1; j < result.Length; j++)
-//            if (result[i] < result[j])
-//            {
-//                tmp = result[i];
-//                result[i] = result[j];
-//                result[j] = tmp;
-//            }
-
-//    return result;
-//}
-
-//static int[] SortArrayAsc(int[] result)
-//{
-
-//    int tmp = 0;
-//    for (int i = 0; i < result.Length; i++)
-//        for (int j = i + 1; j < result.Length; j++)
-//            if (result[i] > result[j])
-//            {
-//                tmp = result[i];
-//                result[i] = result[j];
-//                result[j] = tmp;
-//            }
-
-//    return result;
-//}
-//-------------------------------------- КОНЕЦ -----------------------------------------
-
-
-//---------------------------- НАЧАЛО ( не понмню номер задания 5.2....) ---------------------------------------------
-
-
-
-
-
-//static int[] GetArrayFromConsole(int num = 10)
-//{
-//    var result = new int[num];
-
-//    for (int i = 0; i < result.Length; i++)
-//    {
-//        Console.WriteLine("Введите элемент массива номер {0}", i + 1);
-//        result[i] = int.Parse(Console.ReadLine());
-
-//    }
-
-
-//    return result;
-//}
-
-//static void ShowArray(int[] Number, bool Sort = false)
-//{
-
-//    var tmp = Number;
-//    if (Sort)
-//    {
-//        tmp = SortArray(Number);
-//    }
-//    foreach (var item in tmp)
-//    {
-//        Console.Write(item + ",");
-//    }
-//}
-
-//static int[] SortArray(int[] result)
-//{
-
-//    int tmp = 0;
-//    for (int i = 0; i < result.Length; i++)
-//        for (int j = i + 1; j < result.Length; j++)
-//            if (result[i] > result[j])
-//            {
-//                tmp = result[i];
-//                result[i] = result[j];
-//                result[j] = tmp;
-//            }
-
-//    return result;
-//}
-
-
-
-
-
-
-//------------------------------------------Рабочий метод с сортировкой массива вводимого в консоли (5.2.14) -----------------------------------------
-
-//    public static void Main(string[] args)
-//    {
-//        var Array = GetArrayFromConsole(); //объявляем переменную куда будеи передаваться значение из метода
-
-//        foreach (var item in Array) //смотрим что ввели
-//        {
-//            Console.Write(item + ",");
-//        }
-
-//        Console.WriteLine("Вывод массива после сортировки :");
-
-//        Console.WriteLine();//отступ чтоб не путатся
-
-//        SortArray(Array);// принимаем массив из первого метода GetArrayFromConsole
-//        foreach (var item in Array)
-//        {
-//            Console.Write(item + ",");
-//        }
-//        Console.ReadKey();
-
-//        var sotrdearray = SortArray(Array);
-//        Console.WriteLine($"Выводим значение переменной : {sotrdearray}");
-//        Console.ReadKey();
-//    }
-
-
-
-//    static int[] GetArrayFromConsole(int num = 5)
-//    {
-//        var result = new int[num];
-
-//        for (int i = 0; i < result.Length; i++)
-//        {
-//            Console.WriteLine("Введите элемент массива номер {0}", i + 1);
-//            result[i] = int.Parse(Console.ReadLine());
-
-//        }
-
-
-//        return result;
-//    }
-
-//    static int[] SortArray(int[] result)
-//    {
-
-//        int tmp = 0;
-//        for (int i = 0; i < result.Length; i++)
-//            for (int j = i + 1; j < result.Length; j++)
-//                if (result[i] > result[j])
-//                {
-//                    tmp = result[i];
-//                    result[i] = result[j];
-//                    result[j] = tmp;
-//                }
-
-//        return result;
-//    }
-
-
-
-
-
-
-//}
-
-//------------------------ НАЧАЛО 5.3 ------------------------------------
-//public static void Main(string[] args)
-//{
-
-//    var SoName = "Дмитрий";
-//    Console.WriteLine(SoName);
-//    int Age = 34;
-//    Console.WriteLine(Age);
-
-//    GetName(ref SoName);//Передаем переменную SoName в метод для ввода в неё новых данных
-
-//    Console.WriteLine(SoName);
-
-//    ChangeAge(Age);//Передаем переменную Age в метод для ввода в неё новых данных
-
-//    Console.WriteLine(Age);
-
-
-//    //---------------------------
-//    var arr = new int[] { 1, 2, 3 };
-//    var data = 5;
-//    BigDataOperation(in arr, ref data);
-//    Console.WriteLine(data);
-//    Console.WriteLine(arr[0]);
-//    //------------------------------
-
-//    Console.ReadKey();
-//}
-//static void BigDataOperation(in int[] arr, ref int data)
-//{
-//    data = 8;
-//    arr[0] = 4;
-//}
-
-//static void Test(ref int num)
-//{
-
-//}
-
-//static void GetName(out string name)//метод для ввода нового имени
-//{
-//    Console.WriteLine("Введите имя :");
-//    name = Console.ReadLine();
-//}
-//static void ChangeAge(int age)//метод для ввода нового возраста
-//{
-//    Console.WriteLine("Введите новый возраст :");
-//    age = Convert.ToInt32(Console.ReadLine());
-//}
-//---------------------------- КОНЕЦ 5.3.7 -------------------------------------
-
-
-
-
-//----------------------------- НАЧАЛО 5.3.8--------------------------------------
-//public static void Main(string[] args)
-//{
-//    var num = 0;
-//    var Array = GetArrayFromConsole(ref num);
-
-//}
-//static int[] GetArrayFromConsole(ref int num = 6)
-//{
-//    var result = new int[num];
-
-//    for (int i = 0; i < result.Length; i++)
-//    {
-//        Console.WriteLine("Введите элемент массива номер {0}", i + 1);
-//        result[i] = int.Parse(Console.ReadLine());
-
-//    }
-
-
-//    return result;
-//}
-
-//------------------------------ КОНЕЦ ------------------------------------------
-
