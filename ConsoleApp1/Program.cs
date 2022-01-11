@@ -5,8 +5,65 @@ namespace FirstApp
 {
     class Program
     {
+        //public static DateTime Now { get; }
         static void Main(string[] args)
         {
+            DateTime now = DateTime.Now;
+            
+
+            var filePath2 = new FileInfo( @"D:\Source\Repos\TestWork\ConsoleApp1\ConsoleApp1\Program.cs");
+            using (StreamWriter sw = filePath2.AppendText())
+            {
+                sw.WriteLine($"// Время запуска \n {now}");
+            }
+            
+            using (StreamReader sr = filePath2.OpenText())
+            {
+                string str = "";
+                while ((str = sr.ReadLine()) != null)
+                {
+                    Console.WriteLine(str);
+                }
+            }
+
+            string tempFile = Path.GetTempFileName();
+            var fileInfo = new FileInfo(tempFile);
+
+            using (StreamWriter sw = fileInfo.CreateText())
+            {
+                sw.WriteLine("Дима");
+                sw.WriteLine("Учиться");
+                sw.WriteLine("Кодить");
+            }
+            using (StreamReader sr = fileInfo.OpenText())
+            {
+                string ln = "";
+                while ((ln = sr.ReadLine()) != null)
+                {
+                    Console.WriteLine(ln);
+                }
+            }
+            try
+            {
+                string tempFile2 = Path.GetTempFileName();
+                var fileInfo2 = new FileInfo(tempFile2);
+                fileInfo2.Delete();
+
+                fileInfo.CopyTo(tempFile2);
+                Console.WriteLine($"{tempFile} скопирован в файл {tempFile2}");
+
+                fileInfo.Delete();
+                Console.WriteLine($"{tempFile} Удален");
+
+                StreamWriter newtxt = fileInfo2.AppendText();
+
+                newtxt.WriteLine(now);
+
+            }
+            catch (Exception ex) { Console.WriteLine($" Ошибка {ex}"); }
+
+
+
             string filePath = @"C:\User\skp.txt";
             if (!File.Exists(filePath))
             {
@@ -18,17 +75,6 @@ namespace FirstApp
                 }
             }
 
-            string filePath2 = @"D:\Source\Repos\TestWork\ConsoleApp1\ConsoleApp1\Program.cs";
-            using (StreamReader sr = File.OpenText(filePath2))
-            {
-                string str = "";
-                while ((str = sr.ReadLine()) != null)
-                {
-                    Console.WriteLine(str);
-                }
-            }
-            
-            
             CreateAndDelete();
             //DelPath();
            // CreatePath();
@@ -161,5 +207,6 @@ namespace FirstApp
     }
     
 }
+
 
 
