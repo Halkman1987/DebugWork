@@ -7,7 +7,30 @@ namespace FirstApp
     {
         static void Main(string[] args)
         {
-            DelPath();
+            string filePath = @"C:\User\skp.txt";
+            if (!File.Exists(filePath))
+            {
+                using (StreamWriter sw = File.CreateText(filePath))
+                {
+                    sw.WriteLine("dima");
+                    sw.WriteLine("Учиться");
+                    sw.WriteLine("Кодить");
+                }
+            }
+
+            string filePath2 = @"D:\Source\Repos\TestWork\ConsoleApp1\ConsoleApp1\Program.cs";
+            using (StreamReader sr = File.OpenText(filePath2))
+            {
+                string str = "";
+                while ((str = sr.ReadLine()) != null)
+                {
+                    Console.WriteLine(str);
+                }
+            }
+            
+            
+            CreateAndDelete();
+            //DelPath();
            // CreatePath();
             ViewCatalog();
             GetCatalogs();
@@ -78,6 +101,24 @@ namespace FirstApp
             }
              catch(Exception ex) { Console.WriteLine(ex.Message); }
 
+        }
+        static void CreateAndDelete()
+        {
+           /* DirectoryInfo crt = new DirectoryInfo(@"C:\Users\User\Desktop\1testFolder");
+            if (!crt.Exists)
+            {
+                crt.Create();
+            }*/
+
+            try
+            {
+                DirectoryInfo nfld = new DirectoryInfo(@"C:\Users\User\Desktop\1testFolder");
+                string trashPath = @"C:\User\1testFolder";
+                //Directory.Move(crt, trashPath);
+                nfld.MoveTo(trashPath);
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+                    
         }
         static void CreatePath()
         {
