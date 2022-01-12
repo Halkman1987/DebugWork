@@ -24,6 +24,13 @@ namespace FirstApp
 
             CountFolder.SizeFolders(dirname);
 
+
+            //------------------ 8.6.4 -Бинарное счтение из файла и копирование по трем файлам --------------------------------
+            string newdir = @"C:\Users\User\Desktop\Students";
+            CreateDir.CreateDr(newdir);
+            string Studdat = @"C:\Users\User\Desktop\Students.dat";
+            BinaryRead.BinRead(Studdat);
+
         }
         public static class FolderExicute
         {
@@ -55,12 +62,7 @@ namespace FirstApp
                             DateTime lastaccess = File.GetLastAccessTime(v);
                             TimeSpan unused = DateTime.Now.Subtract(lastaccess);
                             Console.Write(v);
-                            //if (unused > TimeSpan.FromMinutes(30))
-
-
-                            //TimeSpan interval = TimeSpan.FromMinutes(30);
-                            //DateTime dt = File.GetCreationTime(v);
-                            //DateTime time = DateTime.Now;
+                            
                             try
                             {
                                     if (unused > TimeSpan.FromMinutes(30))
@@ -85,6 +87,49 @@ namespace FirstApp
             public static void SizeFolders(string dirname)
             {
 
+            }
+        }
+        public static class CreateDir
+        {
+            public static void CreateDr(string dirname)
+            {
+                try
+                {
+                    if (Directory.Exists(dirname))
+                    {
+                        Directory.CreateDirectory(dirname);
+                    }
+                }
+               catch (Exception e) { Console.WriteLine(e.Message); }
+            }
+        }
+        public static class BinaryRead
+        {
+            public static void BinRead(string file)
+            {
+               
+                string Name;
+                string Group;
+                DateTime DateOfBirth;
+                
+                if (File.Exists(file))
+                {
+                    // Создаем объект BinaryReader и инициализируем его возвратом метода File.Open.
+                    using (BinaryReader reader = new BinaryReader(File.Open(file, FileMode.Open)))
+                    {
+                        // Применяем специализированные методы Read для считывания соответствующего типа данных.
+                       
+                        Name = reader.ReadString();
+                        Group = reader.ReadString();
+                        DateOfBirth = reader.ReadString();
+                    }
+
+                    Console.WriteLine("Из файла считано:");
+
+                    
+                    Console.WriteLine("Строка: " + Name);
+                    Console.WriteLine("Строка: " + Group);
+                }
             }
         }
     }
