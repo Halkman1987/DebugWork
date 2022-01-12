@@ -8,6 +8,7 @@ namespace FirstApp
         //public static DateTime Now { get; }
         static void Main(string[] args)
         {
+            CreateAndDelete();
             DateTime now = DateTime.Now;
             
 
@@ -75,7 +76,7 @@ namespace FirstApp
                 }
             }
 
-            CreateAndDelete();
+           
             //DelPath();
            // CreatePath();
             ViewCatalog();
@@ -150,16 +151,16 @@ namespace FirstApp
         }
         static void CreateAndDelete()
         {
-           /* DirectoryInfo crt = new DirectoryInfo(@"C:\Users\User\Desktop\1testFolder");
+            DirectoryInfo crt = new DirectoryInfo(@"C:\Users\User\Desktop\1testFolder");
             if (!crt.Exists)
             {
                 crt.Create();
-            }*/
+            }
 
             try
             {
                 DirectoryInfo nfld = new DirectoryInfo(@"C:\Users\User\Desktop\1testFolder");
-                string trashPath = @"C:\User\1testFolder";
+                string trashPath = @"C:\$Recycle.Bin";   //C:\User\1testFolder
                 //Directory.Move(crt, trashPath);
                 nfld.MoveTo(trashPath);
             }
