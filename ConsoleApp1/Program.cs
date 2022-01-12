@@ -29,6 +29,7 @@ namespace FirstApp
             {
                 if (Directory.Exists(pathname))
                 {
+                    Console.WriteLine("Пеершли к Чек Фаилс");
                     CheckFiles(pathname);
                     string [] dirpath = Directory.GetDirectories(pathname);
                     foreach (string dir in dirpath)
