@@ -22,6 +22,8 @@ namespace FirstApp
             
             FolderExicute.Checkfolder(dirname);
 
+            CountFolder.SizeFolders(dirname);
+
         }
         public static class FolderExicute
         {
@@ -50,13 +52,19 @@ namespace FirstApp
                     if (namepath.Length != 0)
                         foreach (string v in namepath)
                         {
-                            TimeSpan interval = TimeSpan.FromMinutes(30);
-                            var dt = File.GetLastWriteTime(v);
-                            DateTime time = DateTime.Now;
+                            DateTime lastaccess = File.GetLastAccessTime(v);
+                            TimeSpan unused = DateTime.Now.Subtract(lastaccess);
+                            Console.Write(v);
+                            //if (unused > TimeSpan.FromMinutes(30))
+
+
+                            //TimeSpan interval = TimeSpan.FromMinutes(30);
+                            //DateTime dt = File.GetCreationTime(v);
+                            //DateTime time = DateTime.Now;
                             try
                             {
-                                if ((time - dt) > interval)
-                                {
+                                    if (unused > TimeSpan.FromMinutes(30))
+                                    {
                                     Console.WriteLine("Время вышло");
                                     File.Delete(v);
                                 }
@@ -72,7 +80,13 @@ namespace FirstApp
                 
             } 
         }
+        public static class CountFolder
+        {
+            public static void SizeFolders(string dirname)
+            {
 
+            }
+        }
     }
   
 }
