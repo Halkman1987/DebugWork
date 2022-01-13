@@ -4,44 +4,50 @@ using System.Linq;
 
 namespace FirstApp
 {
-    
+
     class Program
     {
         static void Main(string[] args)
         {
-            
-            string dirname = @"C:\User";
+
+            /*string dirname = @"C:\User\123";
             if (Directory.Exists(dirname))
-            {
-                Console.WriteLine($"Папка доступна {dirname} "); 
-            }
-            else
-            {
-                Directory.CreateDirectory(dirname);
-            }
+            { Console.WriteLine($"Папка доступна {dirname} "); }
+
+            else { Directory.CreateDirectory(dirname); }
+
+            FolderExicute.Checkfolder(dirname);// передали путь @"C:\User"*/
+            // ------------ Задание 2 --- Подсчет папки ---------------------
+            string dirname2 = @"C:\User\Visual";
+
+            DirectoryInfo root = new DirectoryInfo(dirname2);
             
-            FolderExicute.Checkfolder(dirname);
-
-            CountFolder.SizeFolders(dirname);
-
+            CountFolder.SizeFolders(root);
+            //CountFolder.SizeFolders(dirname2);
+            Console.WriteLine("Вывод размера каталога  : C:-User-Visual ");
+            var size = CountFolder.SizeFolders(root);
+            Console.WriteLine(size);
+            Console.WriteLine();
+            Console.WriteLine($"сумма всех файлов и папок :{CountFolder.SizeFolders(root)} ");
 
             //------------------ 8.6.4 -Бинарное счтение из файла и копирование по трем файлам --------------------------------
-            string newdir = @"C:\Users\User\Desktop\Students";
+           /* string newdir = @"C:\Users\User\Desktop\Students";
             CreateDir.CreateDr(newdir); //Создали директорию в методе 
             string Studdat = @"C:\Users\User\Desktop\Students.dat";
-            BinaryRead.BinRead(Studdat);// Передали на считтывание файл 
+            BinaryRead.BinRead(Studdat);// Передали на считтывание файл */
 
             //------------------ 8.6.4. ---- Конец ----------------------------------------------------------------------------
         }
         public static class FolderExicute
         {
-            public static void Checkfolder(string pathname)
+            public static void Checkfolder(string pathname) // приняли путь
             {
-                if (Directory.Exists(pathname))
+                if (Directory.Exists(pathname)) //Проверили на наличие
                 {
                     Console.WriteLine("Пеершли к Чек Фаилс");
-                    CheckFiles(pathname);
-                    string [] dirpath = Directory.GetDirectories(pathname);
+                    CheckFiles(pathname);// отдали путь на проверку файлов
+
+                    string[] dirpath = Directory.GetDirectories(pathname);
                     foreach (string dir in dirpath)
                     {
                         Checkfolder(dir);
@@ -54,90 +60,123 @@ namespace FirstApp
             }
             public static void CheckFiles(string pathname)
             {
-                if (!Directory.Exists(pathname))
+
+                string[] namepath = Directory.GetFiles(pathname);// получили массив файлов
+                                                                
+                foreach (var v in namepath)
                 {
-                    string[] namepath = Directory.GetFiles(pathname);
-                    if (namepath.Length != 0)
-                        foreach (string v in namepath)
+                    DateTime lastaccess = File.GetLastAccessTime(v);
+                    TimeSpan fileacc = DateTime.Now.Subtract(lastaccess);
+                    Console.Write(v);
+                    if (fileacc > TimeSpan.FromMinutes(30)) // проверили условие
+                    {
+                        Console.WriteLine("Время вышло");
+                       try
                         {
-                            DateTime lastaccess = File.GetLastAccessTime(v);
-                            TimeSpan unused = DateTime.Now.Subtract(lastaccess);
-                            Console.Write(v);
-                            
-                            try
-                            {
-                                    if (unused > TimeSpan.FromMinutes(30))
-                                    {
-                                    Console.WriteLine("Время вышло");
-                                    File.Delete(v);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Время не пришло ");
-                                }
-                            }
-                            catch(Exception e)
-                            { Console.WriteLine(e.Message); }
+                            File.Delete(v);
+                            Console.Write("Файл успешно удален");
                         }
-                }
-                
-            } 
-        }
-        public static class CountFolder
-        {
-            public static void SizeFolders(string dirname)
-            {
-
-            }
-        }
-        
-        // ----------------------------- Задание 4 --------------------------------
-        public static class CreateDir
-        {
-            public static void CreateDr(string dirname)
-            {
-                try
-                {
-                    if (Directory.Exists(dirname))
+                        catch (Exception ex)
+                        {
+                            
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                    else
                     {
-                        Directory.CreateDirectory(dirname);
+                        Console.WriteLine("Время не пришло ");
                     }
                 }
-               catch (Exception e) { Console.WriteLine(e.Message); }
+                          
             }
+
+
         }
-        public static class BinaryRead
+    }
+    public static class CountFolder
+    {
+        public static long SizeFolders(DirectoryInfo dirname)
         {
-            public static void BinRead(string file)
+            //DirectoryInfo[] folders = root.GetDirectories();
+            long size = 0;
+            FileInfo[] files = dirname.GetFiles();
+
+            foreach (FileInfo f in files)
             {
-               
-                string Name;
-                string Group;
-                DateTime DateOfBirth;
-                
-                if (File.Exists(file))
+                size += f.Length;
+            }
+            DirectoryInfo[] dirs = dirname.GetDirectories();
+            foreach (DirectoryInfo dir in dirs)
+            {
+                size += SizeFolders(dir);
+            }
+            return size;
+        }
+       /* public static long SizeFolders(string dirname)
+        {
+            long size = 0;
+            string[] files = Directory.GetFiles(dirname);
+            
+            foreach (string f in files)
+            {
+                size += f.Length;
+            }
+            string[] dirs = Directory.GetDirectories(dirname);
+            foreach(string dir in dirs)
+            {
+                size += SizeFolders(dir);
+            }
+            return size;
+        }*/
+    }
+
+    // ----------------------------- Задание 4 --------------------------------
+    public static class CreateDir
+    {
+        public static void CreateDr(string dirname)
+        {
+            try
+            {
+                if (Directory.Exists(dirname))
                 {
-                    // Создаем объект BinaryReader и инициализируем его возвратом метода File.Open.
-                    using (BinaryReader reader = new BinaryReader(File.Open(file, FileMode.Open)))
-                    {
-                        // Применяем специализированные методы Read для считывания соответствующего типа данных.
-                       
-                        Name = reader.ReadString();
-                        Group = reader.ReadString();
-                        DateOfBirth = reader.ReadString();
-                    }
-
-                    Console.WriteLine("Из файла считано:");
-
-                    
-                    Console.WriteLine("Строка: " + Name);
-                    Console.WriteLine("Строка: " + Group);
+                    Directory.CreateDirectory(dirname);
                 }
+            }
+            catch (Exception e) { Console.WriteLine(e.Message); }
+        }
+    }
+    public static class BinaryRead
+    {
+        public static void BinRead(string file)
+        {
+
+            string Name;
+            string Group;
+            DateTime DateOfBirth;
+
+            if (File.Exists(file))
+            {
+                // Создаем объект BinaryReader и инициализируем его возвратом метода File.Open.
+                using (BinaryReader reader = new BinaryReader(File.Open(file, FileMode.Open)))
+                {
+                    // Применяем специализированные методы Read для считывания соответствующего типа данных.
+
+                    Name = reader.ReadString();
+                    Group = reader.ReadString();
+                    //DateOfBirth = reader.ReadString();
+                }
+
+                Console.WriteLine("Из файла считано:");
+
+
+                Console.WriteLine("Строка: " + Name);
+                Console.WriteLine("Строка: " + Group);
             }
         }
     }
-  
 }
+  
+
 
 
 
