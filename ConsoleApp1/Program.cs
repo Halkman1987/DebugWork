@@ -10,18 +10,21 @@ namespace FirstApp
             DriveInfo[] drives = DriveInfo.GetDrives();
            // string local = @"D:\Source";
            //
-            foreach (DriveInfo drive in drives.Where(d => d.DriveType == DriveType.Fixed))
+            foreach (DriveInfo drive in drives.Where(d => d.DriveType == DriveType.Fixed))// отсортировали из массива дисков только разделы ХДД
             {
-                WriteDriveInfo(drive);
-                DirectoryInfo root = drive.RootDirectory;
-                DirectoryInfo[] folders = root.GetDirectories();
-                WriteFoldersInfo(folders);
-                
+                WriteDriveInfo(drive);// вывод разделов ХДД
+                DirectoryInfo root = drive.RootDirectory; // получаем корневую папку
+                DirectoryInfo[] folders = root.GetDirectories(); // получаем массив каталогов из корневой ппки 
+                WriteFoldersInfo(folders); // Передаем массив каталогов в метод подсчета общего размера всех файлов в них
+
+                WriteFilesInfo(root);// передача корневой папки в метод посчета размера файлов в ней
                 Console.WriteLine();
                 Console.WriteLine();
             }
 
         } 
+
+        //----------------------- Получение всех Разделов HDD ----------------------
         public static void WriteDriveInfo(DriveInfo drive)
         {
             Console.WriteLine(drive.Name);
@@ -33,6 +36,8 @@ namespace FirstApp
                 Console.WriteLine($"{drive.VolumeLabel}");
             }
         }
+
+        //--------------------- Подсчет размера всех файлов во всех подпапках ----------------------------
         public static void WriteFoldersInfo(DirectoryInfo[] folders)
         {
             Console.WriteLine("Папки");
@@ -40,8 +45,29 @@ namespace FirstApp
             
             foreach(DirectoryInfo folder in folders)
             {
-                Console.WriteLine(folder);
+                try
+                {
+                    Console.WriteLine(folder.Name + $"{NewProcess.DirSize(folder)}");
+                }
+                catch (Exception ex) { Console.WriteLine(folder.Name + $" Не удалось посчитать размер : {ex.Message} "); }
+
             }
+        }
+
+        // ------------------------- Подсчет файлов и их размер в корневой директории ------------------
+        public static void WriteFilesInfo(DirectoryInfo file)
+        {
+            long size = 0;
+            Console.WriteLine("Файлы");
+            Console.WriteLine();
+            //FileInfo[] files = file.GetFiles();
+            foreach (FileInfo fil in file.GetFiles())
+            {
+                Console.WriteLine(fil.Name + fil.Length);
+                Console.WriteLine("Общий размер файлов :");
+                size += fil.Length;
+            }
+            Console.WriteLine(size);
         }
     }
     
