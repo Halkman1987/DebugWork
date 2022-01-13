@@ -1,76 +1,92 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+
 class BinaryExperiment
 {
-    const string SettingsFileName = "Settings.cfg";
-    
+
+
     static void Main()
     {
-        ReadBin();
+        //string SetFileNew = @"C:\Users\User\Desktop\BinaryFile.bin";
+        string Stud = @"C:\Users\User\Desktop\Students.dat";
+        ReadValues(Stud);
+        //ReadBin(SetFileNew);
         // Пишем
-       /* WriteValues();
+        string Stud1 = @"C:\Users\User\Desktop\Students1.dat";
+        WriteValues(Stud1);
         // Считываем
-        ReadValues();*/
+
     }
 
-    static void WriteValues()
+    static void WriteValues(string Stud1)
     {
         // Создаем объект BinaryWriter и указываем, куда будет направлен поток данных
-        string SetF = @"C:\Users\User\Desktop\BinaryFile.bin";
-        using (BinaryWriter writer = new BinaryWriter(File.Open(SetF, FileMode.Append))) 
+        //string stud1 = @"C:\Users\User\Desktop\BinaryFile.bin";
+       if (File.Exists(Stud1))
         {
-            // записываем данные в разном формате
-            writer.Write(DateTime.Now);
-
-        }
-    }
-   
-    
-    
-    
-    
-    static void ReadValues()
-    {
-
-        string StringValue;
-
-
-        if (File.Exists(SetFileNew))
-        {
-            // Создаем объект BinaryReader и инициализируем его возвратом метода File.Open.
-            using (BinaryReader reader = new BinaryReader(File.Open(SetFileNew, FileMode.Open)))
+            FileStream fs = new FileStream()
+            using (BinaryWriter writer = new BinaryWriter(File.Open(SetF, FileMode.Append)))
             {
-                // Применяем специализированные методы Read для считывания соответствующего типа данных.
-
-                StringValue = reader.ReadString();
+                // записываем данные в разном формате
+                // writer.Write();
 
             }
-
-            Console.WriteLine("Из файла считано:");
-
-            Console.WriteLine("Дробь: " + FloatValue);
-            Console.WriteLine("Строка: " + StringValue);
-            Console.WriteLine("Целое: " + IntValue);
-            Console.WriteLine("Булево значение " + BooleanValue);
         }
+       
     }
 
-    
-    static void ReadBin()
+
+    public static void ReadValues(string Stud)
     {
-        
-        string SetFileNew = @"C:\Users\User\Desktop\BinaryFile.bin";
-        if (File.Exists(SetFileNew))
+        string Name;
+        string Group;
+        string DateOfbirth;
+        if (File.Exists(Stud))
         {
-            string StringValue;
-            using (BinaryReader reader = new BinaryReader(File.Open(SetFileNew, FileMode.Open)))
+           
+            using (var stream = File.Open(Stud, FileMode.Open))//, FileAccess.Read))
             {
-                StringValue = reader.ReadString();
+                using (var reader = new BinaryReader(stream, Encoding.UTF8, false))
+                {
+                    
+                    Name = reader.ReadString();
+                    Group = reader.ReadString();
+                    DateOfbirth = reader.ReadString();
+                }
+                       Console.WriteLine("Из файла считано:");
+                       Console.WriteLine("Строка: " + Name, Group, DateOfbirth);
             }
-            Console.WriteLine(StringValue);
+
         }
-        
-        
+
     }
+            
+            
 }
+    
+
+    
+   /* static void ReadBin(string SetFileNew)
+{
+
+    //string SetFileNew = @"C:\Users\User\Desktop\BinaryFile.bin";
+    if (File.Exists(SetFileNew))
+    {
+        string Name;
+        string Group;
+        string DateOfbirth;
+
+        using (BinaryReader reader = new BinaryReader(File.Open(SetFileNew, FileMode.Open)))
+        {
+            Name = reader.ReadString();
+            Group = reader.ReadString();
+            DateOfbirth = reader.ReadString();
+        }
+        Console.WriteLine(Name);
+    }
+
+
+}
+}*/

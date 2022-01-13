@@ -5,20 +5,22 @@ namespace FirstApp
 {
     class Program
     {
-        //public static DateTime Now { get; }
+        
         static void Main(string[] args)
         {
-            CreateAndDelete();
-            DateTime now = DateTime.Now;
+            
+            
             
 
             var filePath2 = new FileInfo( @"D:\Source\Repos\TestWork\ConsoleApp1\ConsoleApp1\Program.cs");
+            
+            DateTime now = DateTime.Now;
             using (StreamWriter sw = filePath2.AppendText())
             {
-                sw.WriteLine($"// Время запуска \n {now}");
+                sw.WriteLine($"// Время запуска \n {now}");// Добавили в конец файла вывод даты текущей 
             }
             
-            using (StreamReader sr = filePath2.OpenText())
+            using (StreamReader sr = filePath2.OpenText())// выводим на консоль содержание файла Program.cs с добавленной записью ($"// Время запуска \n {now}")
             {
                 string str = "";
                 while ((str = sr.ReadLine()) != null)
@@ -27,10 +29,11 @@ namespace FirstApp
                 }
             }
 
+            // Создание временного имени файла1
             string tempFile = Path.GetTempFileName();
-            var fileInfo = new FileInfo(tempFile);
+            var fileInfo = new FileInfo(tempFile);//Создание объекта класса и присвоении ему временного имени файла1
 
-            using (StreamWriter sw = fileInfo.CreateText())
+            using (StreamWriter sw = fileInfo.CreateText()) // Запись в бинарном формате
             {
                 sw.WriteLine("Дима");
                 sw.WriteLine("Учиться");
@@ -46,6 +49,7 @@ namespace FirstApp
             }
             try
             {
+                // Создание временного имени файла2
                 string tempFile2 = Path.GetTempFileName();
                 var fileInfo2 = new FileInfo(tempFile2);
                 fileInfo2.Delete();
@@ -64,7 +68,7 @@ namespace FirstApp
             catch (Exception ex) { Console.WriteLine($" Ошибка {ex}"); }
 
 
-
+            // -- создание текстового файла с содержимым --
             string filePath = @"C:\User\skp.txt";
             if (!File.Exists(filePath))
             {
@@ -75,13 +79,15 @@ namespace FirstApp
                     sw.WriteLine("Кодить");
                 }
             }
-
+            //-----------------------------------------------
            
-            //DelPath();
-           // CreatePath();
+            DelPath();
+            CreatePath();
             ViewCatalog();
             GetCatalogs();
-            // получим системные диски
+            CreateAndDelete();
+
+            // --------------------  РАБОТА С ДИСКАМИ получим системные диски --------------------------------------
             DriveInfo[] drives = DriveInfo.GetDrives();
             // Пробежимся по дискам и выведем их свойства
             foreach (DriveInfo drive in drives)
@@ -95,9 +101,10 @@ namespace FirstApp
                     Console.WriteLine($"Метка: {drive.VolumeLabel}");
                 }
             }
+            //-----------------------------------------------------------------------------------------------------------
         }
-
-        static void GetCatalogs()
+        // -------------------------------- Получение Всех каталогов и Всех папок из нужного каталога -------------------------------------
+        static void GetCatalogs() 
         {
             string dirName = @"C:\\"; // Прописываем путь к корневой директории MacOS (для Windows скорее всего тут будет "C:\\")
             if (Directory.Exists(dirName)) // Проверим, что директория существует
@@ -116,6 +123,7 @@ namespace FirstApp
                     Console.WriteLine(s);
             }
         }
+        // ------------------------- Подсчет Колличества Папок и Фалов в Нужной директории --------------------------
         static void ViewCatalog()
         {
             try
@@ -136,8 +144,10 @@ namespace FirstApp
             {
                 Console.WriteLine(ex.Message);
             }
-
         }
+        //--------------------------------------------------------------------------------------------------------------
+        
+        // ----------------------------- Удаление ВСЕГО содержимого Каталога -----------------------
         static void DelPath()
         {
             try
@@ -147,8 +157,10 @@ namespace FirstApp
                 Console.WriteLine("Path delete");
             }
              catch(Exception ex) { Console.WriteLine(ex.Message); }
-
         }
+        //------------------------------------------------------------------------------------------
+       
+        // ---------------- Создание Папи и перемещение её в другую -------------------
         static void CreateAndDelete()
         {
             DirectoryInfo crt = new DirectoryInfo(@"C:\Users\User\Desktop\1testFolder");
@@ -156,7 +168,6 @@ namespace FirstApp
             {
                 crt.Create();
             }
-
             try
             {
                 DirectoryInfo nfld = new DirectoryInfo(@"C:\Users\User\Desktop\1testFolder");
@@ -165,8 +176,10 @@ namespace FirstApp
                 nfld.MoveTo(trashPath);
             }
             catch (Exception e) { Console.WriteLine(e.Message); }
-                    
         }
+        //----------------------------------------------------------------------------
+
+        // ---------------------------------- Создание Каталога с вложенным подкаталогом ------------------------------
         static void CreatePath()
         {
             DirectoryInfo crpth = new DirectoryInfo(@"c:\User\sourse\");
@@ -177,9 +190,14 @@ namespace FirstApp
                 Console.WriteLine(crpth.GetDirectories().Length);
             }
         }
+        //-------------------------------------------------------------------------------------------------------------
     }
     
 
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------
     public class Drive
     {
         public string Name { get; }
