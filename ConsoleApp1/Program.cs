@@ -27,10 +27,11 @@ namespace FirstApp
 
             //------------------ 8.6.4 -Бинарное счтение из файла и копирование по трем файлам --------------------------------
             string newdir = @"C:\Users\User\Desktop\Students";
-            CreateDir.CreateDr(newdir);
+            CreateDir.CreateDr(newdir); //Создали директорию в методе 
             string Studdat = @"C:\Users\User\Desktop\Students.dat";
-            BinaryRead.BinRead(Studdat);
+            BinaryRead.BinRead(Studdat);// Передали на считтывание файл 
 
+            //------------------ 8.6.4. ---- Конец ----------------------------------------------------------------------------
         }
         public static class FolderExicute
         {
@@ -89,6 +90,8 @@ namespace FirstApp
 
             }
         }
+        
+        // ----------------------------- Задание 4 --------------------------------
         public static class CreateDir
         {
             public static void CreateDr(string dirname)
