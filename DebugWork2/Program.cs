@@ -25,7 +25,11 @@ class BinaryExperiment
 
         }
     }
-
+   
+    
+    
+    
+    
     static void ReadValues()
     {
 
@@ -52,6 +56,7 @@ class BinaryExperiment
         }
     }
 
+    
     static void ReadBin()
     {
         
