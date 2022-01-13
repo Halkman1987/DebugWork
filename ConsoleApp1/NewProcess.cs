@@ -7,7 +7,24 @@ using System.Threading.Tasks;
 
 namespace DebugWork1
 {
-    internal class NewProcess
+    public static class NewProcess
     {
+       public static long DirSize(DirectoryInfo d)
+        {
+            long size = 0;
+            FileInfo[] files = d.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                size += file.Length;
+            }
+            DirectoryInfo[] dirs = d.GetDirectories();
+            foreach (DirectoryInfo dir in dirs)
+            {
+                size += DirSize(dir);
+
+            }
+            return size;
+        }
+
     }
 }
