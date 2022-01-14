@@ -68,8 +68,10 @@ class Program
             case 3:
                 Console.WriteLine("Вы выбрали доставку в магазин");
                 Console.WriteLine(ShopDelivery.shopadress);
-
-                break;
+               
+                new Order<HomeDelivery>=new(,)
+                
+                    break;
         }
 
 
@@ -88,12 +90,19 @@ class Program
     abstract class Delivery
     {
         public Adress adress;
+        public abstract string getInfo();
     }
 
     class HomeDelivery : Delivery
     {
         
         public string viphome;
+
+        public override string getInfo()
+        {
+            return $"{adress}-{viphome}";
+        }
+
         public void SetHome()
         {
 
@@ -121,11 +130,18 @@ class Program
 
         public Product Product;
 
-       
+        public Order(TDelivery delivery, int number, string description, Product product)
+        {
+            Delivery = delivery;
+            Number = number;
+            Description = description;
+            Product = product;
+        }
 
         public void DisplayAddress()
         {
-            Console.WriteLine(Delivery.adress);
+            Console.WriteLine(Delivery.getInfo());
+            Product.name;
         }
         //private Product product;
         //public Order (Product product)
@@ -139,6 +155,7 @@ class Program
     {
         public int much;
         public string snaryad;
+        public abstract string name { get; }
         public virtual void SetTovar(int num)
         {
             Console.WriteLine("Укажите количество товаров :");
@@ -152,12 +169,15 @@ class Program
     class Gantel : Product
     {
         
-        public string gantel = "Гантель";
+        public string gantel ;
 
         public Gantel() : base(much)
         {
 
         }
+
+        public override string name => "gantel";
+
         public override void SetTovar(int NumTov)
         {
 
