@@ -47,7 +47,7 @@ namespace FirstApp
             {
                 try
                 {
-                    Console.WriteLine(folder.Name + $"{NewProcess.DirSize(folder)}");
+                    Console.WriteLine(folder.Name + $"{NewProcess.DirSize(folder)}");// 
                 }
                 catch (Exception ex) { Console.WriteLine(folder.Name + $" Не удалось посчитать размер : {ex.Message} "); }
 
