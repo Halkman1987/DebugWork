@@ -8,8 +8,7 @@ namespace FirstApp
         static void Main(string[] args)
         {
             DriveInfo[] drives = DriveInfo.GetDrives();
-           // string local = @"D:\Source";
-           //
+          
             foreach (DriveInfo drive in drives.Where(d => d.DriveType == DriveType.Fixed))// отсортировали из массива дисков только разделы ХДД
             {
                 WriteDriveInfo(drive);// вывод разделов ХДД
@@ -60,7 +59,6 @@ namespace FirstApp
             long size = 0;
             Console.WriteLine("Файлы");
             Console.WriteLine();
-            //FileInfo[] files = file.GetFiles();
             foreach (FileInfo fil in file.GetFiles())
             {
                 Console.WriteLine(fil.Name + fil.Length);
