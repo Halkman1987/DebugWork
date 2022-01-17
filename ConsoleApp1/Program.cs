@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 class Program
 {
-    
     public static void Main(string[] args)
     {
         //Заводим номенклатуру товаров 
@@ -33,7 +32,7 @@ class Program
         list.Add(tov[8]);
         list.Add(tov[9]);
         list.Add(tov[10]);
-        // Вывод товаров из массива в консоль
+        // Вывод товаров из массива в консоль (просто для проверки работы листа)
         foreach (var ls in list)
         {
             Console.WriteLine($" {ls.pd} -- {ls.name} = {ls.cash} ");
@@ -54,10 +53,13 @@ class Program
         //Product vibor = tov[numtov];
         Console.WriteLine(" Укажите количество :");
         int muchtov = Convert.ToInt32(Console.ReadLine());
-       
+        // вот тут должен быть способ как добавить кудато ( у меня в Ордере есть перменная TovaryVkorzine)
+        // список выбранных товаров и их количество для дальнейшего подсчета
 
         Adress adress = new Adress();//инициализировал элемент класса Адрес (только вот зачем)
-        Order<Delivery> MyOrder = new Order<Delivery>(); // инициализировал элемент класса Ордер ( где будет хранится вся информация о Заказе
+        Order<Delivery> MyOrder = new Order<Delivery>(); // инициализировал элемент класса Ордер ( где будет хранится вся информация о Заказе)
+                                                         // Возможно нужно раньше инициализировать что бы передать список выбранных товаров
+
         Console.WriteLine("Выберите способ доставки:\n 1 - Если нужна доставка на дом \n 2 - Если требуется доставка до Постамата \n 3 - Если вы хотите забрать товар из магазина");
         int change = Convert.ToInt32(Console.ReadLine());
         switch (change)
