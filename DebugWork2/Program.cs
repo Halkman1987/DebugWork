@@ -16,23 +16,7 @@ namespace FinalTask
 
 
     }
-    class MotherBoard
-    {
-        public string Name ; 
-    }
-    class SystemUnit
-    {
-        private MotherBoard motherBoard;
-
-        public SystemUnit(MotherBoard motherBoard)
-        {
-            this.motherBoard = motherBoard;
-        }
-        public SystemUnit()
-        {
-            motherBoard = new MotherBoard();
-        }
-    }
+   
 
 }
 
