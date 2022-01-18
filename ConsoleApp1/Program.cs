@@ -20,72 +20,103 @@ class Program
         tov[10] = new Product(11 ,"Гантель 16кг", 900);
         
         //Добавление в Список товаров из класса Продукт
-        List<Product> list = new List<Product>();
-        list.Add(tov[0]);
-        list.Add(tov[1]);
-        list.Add(tov[2]);
-        list.Add(tov[3]);
-        list.Add(tov[4]);
-        list.Add(tov[5]);
-        list.Add(tov[6]);
-        list.Add(tov[7]);
-        list.Add(tov[8]);
-        list.Add(tov[9]);
-        list.Add(tov[10]);
-        // Вывод товаров из массива в консоль (просто для проверки работы листа)
-        foreach (var ls in list)
+        List<Product> ListTov = new List<Product>();
+        foreach(var ls in tov)
         {
-            Console.WriteLine($" {ls.pd} -- {ls.name} = {ls.cash} ");
+            ListTov.Add(ls);// заносим список товаров в Лист
         }
+       
+        // Вывод товаров из массива в консоль (просто для проверки работы листа) РАБОТАЕТ 
+        //foreach (var ls in ListTov)
+        //{
+        //    Console.WriteLine($" {ls.pd} -- {ls.name} = {ls.cash} ");
+        //}
        
         
         //----------------------------- Начало Программы ---------------------------------------------- 
         Console.WriteLine("\tДобро пожаловать в магазин спорт-инвентаря :");
+       
+        Console.WriteLine("Введите своё Имя :");
+        string nm = Console.ReadLine();
+        Console.WriteLine("Введите свою Фамилию :");
+        string fn = Console.ReadLine();
+        Console.WriteLine("Введите свой номер телефона :");
+        string tn = Console.ReadLine();
+        
+        // Объявляем экземпляры класса для занесения в них значений
+        Order<Delivery> MyOrder = new Order<Delivery>();
+        MyOrder.user = new User(nm, fn, tn);
+        Console.WriteLine("------ Данные приняты ------");
         Console.WriteLine("\tИмеются данные товары :");
         foreach(var p in tov)
         {
             Console.WriteLine( $" {p.pd} - {p.name} = {p.cash} рублей");
         }
         Console.WriteLine("-------------------------------------------------------------------------");
-
-        Console.WriteLine("Выберите товары, введите номер товара :");
-        int numtov = Convert.ToInt32(Console.ReadLine());
+        int numtov;
+        int muchtov;
+        string choice; 
         //Product vibor = tov[numtov];
-        Console.WriteLine(" Укажите количество :");
-        int muchtov = Convert.ToInt32(Console.ReadLine());
+        do
+        {
+            Console.WriteLine("Выберите товар, введите номер товара :");
+            numtov = Convert.ToInt32(Console.ReadLine());
+            MyOrder.TovaryVkorzineList.Add(ListTov[numtov]);
+            Console.WriteLine(" Укажите количество :");
+            muchtov = Convert.ToInt32(Console.ReadLine());
+            for(int i = 0; i < muchtov; i++)
+            {
+                MyOrder.TovaryVkorzineList.Add(ListTov[numtov]);
+            }
+            Console.WriteLine("Желаете ли вы добавить еще товары в корзину ? :\n Да/Нет");
+            choice = Console.ReadLine();
+        }
+        while (choice == "да" | choice == "Да");
+        Console.WriteLine("-------------------------------------------------------------------------");
+        Console.WriteLine("Вы выбрали следующие товары :");
+        foreach (var t in MyOrder.TovaryVkorzineList)
+        {
+            Console.WriteLine($"{t.name} , {t.cash} ");
+        }
+        int sum =0;
+        foreach (var t in MyOrder.TovaryVkorzineList)
+        {
+            sum += t.cash;
+        }
+            Console.WriteLine($"общая сумма покупки составляет : {sum}");
         // вот тут должен быть способ как добавить кудато ( у меня в Ордере есть перменная TovaryVkorzine)
         // список выбранных товаров и их количество для дальнейшего подсчета
 
-        Adress adress = new Adress();//инициализировал элемент класса Адрес (только вот зачем)
-        Order<Delivery> MyOrder = new Order<Delivery>(); // инициализировал элемент класса Ордер ( где будет хранится вся информация о Заказе)
-                                                         // Возможно нужно раньше инициализировать что бы передать список выбранных товаров
-
+        Adress adress = new Adress();
+        //MyOrder.Delivery.Adress.InputAdressPick();
         Console.WriteLine("Выберите способ доставки:\n 1 - Если нужна доставка на дом \n 2 - Если требуется доставка до Постамата \n 3 - Если вы хотите забрать товар из магазина");
         int change = Convert.ToInt32(Console.ReadLine());
         switch (change)
         {
             case 1:
-                MyOrder.Delivery = new HomeDelivery();// Не понятно зачем эта запись, знаю лишь одно что теперь
-                                                      // в классе Ордер (public TDelivery Delivery - будет понимать что это HomeDelivery()
-                                                      // но обратиься кполям HomeDelivery() всё рано не могу через эту переменную или вызвать метод
-                HomeDelivery homeDelivery = new HomeDelivery();// Создаю экземпляр класса т.к. не знаю как вызвать следующие два метода которые ниже
-                homeDelivery.SetHomeAdr();// Запускаем метод ввода адреса Заказчика
-                homeDelivery.Getadress(); // смотрим что ввёл Заказчик (просто чтоб проверить пока) 
+                MyOrder.Delivery = new HomeDelivery(adress);// Не понятно зачем эта запись, знаю лишь одно что теперь
+                var homedeliv = (HomeDelivery)MyOrder.Delivery;          // в классе Ордер (public TDelivery Delivery - будет понимать что это HomeDelivery()
+                                                                         // но обратиься кполям HomeDelivery() всё рано не могу через эту переменную или вызвать метод
+                                                                         //HomeDelivery homeDelivery = new HomeDelivery();// Создаю экземпляр класса т.к. не знаю как вызвать следующие два метода которые ниже
+                homedeliv.SetHomeAdr();// Запускаем метод ввода адреса Заказчика
+                homedeliv.Getadress(); // смотрим что ввёл Заказчик (просто чтоб проверить пока) 
                 break;
             
             case 2:
                 Console.WriteLine("Вы выбрали доставку в постамат");
                 //MyOrder.Delivery = new PickPointDelivery(645982);// Цифры в скобках это boxnumber для присваивания номера отправления посылки, по идее должен в ордер вкладываться при необходимости
                 MyOrder.Delivery = new PickPointDelivery();
-                PickPointDelivery pickPointDelivery = new PickPointDelivery();// пришлось объявить очередной экземпляр класса для вызова метода SetPickAdr(ii)
+                var pickpoit = (PickPointDelivery)MyOrder.Delivery;
+               // PickPointDelivery pickPointDelivery = new PickPointDelivery();// пришлось объявить очередной экземпляр класса для вызова метода SetPickAdr(ii)
                 Console.WriteLine("Доступны следующие точки:");
                 foreach (var adr in adress.PickAdr) // Переменная-массив со списком точек выдачи из класса Адресс . но сначала должен быть вызван конструктор 
                     Console.WriteLine($"{adr}");
                 //тут надо дописать какую точки мы выбрали и она должна попасть в Ордер для вывода итоговой информации 
                 Console.WriteLine("Введите номер постамата ");
                 int ii = Convert.ToInt32(Console.ReadLine());
-                pickPointDelivery.SetPickAdr(ii);// выбираем постамат
-                Console.WriteLine(MyOrder.Delivery);
+                pickpoit.SetPickAdr(ii);// выбираем постамат
+                                        //pickPointDelivery.SetPickAdr(ii);// выбираем постамат
+                                        // Console.WriteLine(MyOrder.Delivery);
                 break;
             
             case 3:
@@ -100,7 +131,6 @@ class Program
         // По идее после switch case  мы должны получить конкретный вариант MyOrder и с ним уже работь, дозапонять
         // хотя непонятно как мы получим MyOrder после прохождения кейсов.   
 
-
         //Дальше просто попытка вывести методы для понятия функционирования метода и их
         //взаимосвязи с введенными данными адреса при выборе доставки  MyOrder.Delivery = new HomeDelivery() 
         Console.WriteLine("Выведем введенный адрес");
@@ -110,45 +140,6 @@ class Program
         MyOrder.Delivery.Getadress();
         MyOrder.DisplayAddress();
 
-
-
-
-
-        //-----------------  от Олега  ----  Вариант Выбора Доставки  ----------------------------------------
-        Order<Delivery> order2 = new Order<Delivery>();
-        Console.WriteLine("Введите  choice :");
-        int choice = Convert.ToInt32(Console.ReadLine());
-         switch (choice)
-         {
-             case 1:
-                 {
-                     order2.Delivery = new ShopDelivery();
-                     break;
-                 }
-             case 2:
-                 {
-                    int key = 0;
-                     Console.WriteLine("Доступны следующие точки:");
-                     foreach (var adr in adress.PickAdr)
-                     Console.WriteLine(adr);
-                     Console.WriteLine("Выберете по номеру (от 1 до {0})", adress.PickAdr.Length);// {0} количество постаматов
-                      key = key.GetNumber(1, adress.PickAdr.Length);// GetNumber наверно метод который присваивает key номер постамата (непонятна цифра 1 в начале)
-                    order2.Delivery = new PickPointDelivery(adress.PickAdr[key - 1]);// конструктор который принимает цифру в номером постамата
-                                                                                     // и он в итоге попадает в ордер
-                    break;
-                 }
-             case 3:
-                 {
-                     order2.Delivery = new HomeDelivery(/*buyer.Address*/);//buyer - покупатель и запускаем метод адресс
-                     break;
-                 }
-             default:
-                 {
-                     order2.Delivery = new ShopDelivery();
-                     break;
-                 }
-         }
-        //--------------------------------------------------------------------------------------------------
 
     }
 
@@ -161,12 +152,17 @@ class Program
 
     class HomeDelivery : Delivery
     {
+       
         public override Adress Adress { get; set;}
         public override int PriceDelivery { get; set;} //цена по идее должна быть жестко прописана , но её надо назначить
         public void GetPrice(int num)// num количество товаров к примеру
         {
             PriceDelivery = num * 100;
-        } 
+        }
+        public HomeDelivery(Adress adress)
+        {
+            Adress = adress;
+        }
         public void SetHomeAdr()// Ввод адреса для доставки
         {
             Console.WriteLine("Вы выбрали доставку на дом, введите свой адрес для доставки :");
@@ -208,7 +204,7 @@ class Program
         }*/
         public override void Getadress()
         {
-            Console.WriteLine($"Выводим адресс из PickPointDelivery{Adress.PickAdr[num]}");//не получилось реализовать
+           // Console.WriteLine($"Выводим адресс из PickPointDelivery{Adress.PickAdr[num]}");//не получилось реализовать
         }
     }
 
@@ -228,29 +224,31 @@ class Program
     // Заказ 
     class Order<TDelivery> where TDelivery : Delivery
     {
+        public User user;
         public TDelivery Delivery;//что это нам дает
-
         public int Number;//номер ордера надо как то назначить ( к примеру рандом )
-
         public string Description;
-        public string TovaryVkorzine;// список выбранных товаров или List 
-        List<string[]> TovaryVkorzineList = new List<string[]> { };// как вариант
+        public string[] TovaryVkorzine;// список выбранных товаров или List 
         
-        public Product[] product;//что это нам дает? но хотелось бы здесь прописать товары которые были выбраны
+        public List<Product> TovaryVkorzineList = new List<Product> { };// как вариант
+       
+        public Product product;
+
+
+
         public string prod;
-        public void InProduct(Product[] product)
+        public void InProduct(Product[] product)// метод для вывода массива товаров из полей класса Продукт 
         {
-            product = product;
-            foreach(Product p in product)
+           var allproduct = product;
+            foreach(Product p in allproduct)
             {
                 Console.WriteLine(p.pd.ToString(), p.name, "-", p.cash, "рублей");
             }
         }
-        public Order()
+        public Order()// пустой конструктор
         {
             
         }
-
         public Order(TDelivery delivery, int number, string description, Product product)
         {
             Delivery = delivery;
@@ -261,24 +259,22 @@ class Program
 
         public void DisplayAddress()
         {
-            Console.WriteLine("ORDER выводим из Метод Дисплей адресс из ордера");
+            Console.WriteLine("ORDER выводим  Метод Дисплей адресс из ордера");
+            //foreach(var adr in Delivery.Adress)
             Console.WriteLine(Delivery.Adress);//откуда берется адресс 
             Console.WriteLine("выводим Product.name");
             //Console.WriteLine(product);
         }
-        //private Product product;
-        //public Order (Product product)
-        //{
-        //    this.product = product;
-        //}
-
-        // ... Другие поля
+        
+        public User User { get; set; }
+        
     }
      class Product //Заполнение из Main
     {
         public int pd;
         public string name;
         public int cash;
+        public int much;
         public Product(int id,string Name, int cash)
         {
             pd = id;
@@ -286,26 +282,15 @@ class Program
             this.cash = cash;
         }
     }
-    class Gantel 
-    {
-        public string gantel;
-    }
-    class Girya 
-    {
-       
-    }
-    class Griff 
-    {
-        public string shtanga ;
-    }
-    class Blini 
-    {
-        public string blin;
-    }
-
+   
 
     public class Adress
     {
+        public Adress GetAdress()
+        {
+            return new Adress();
+        }
+
         private string IndexCity;
         private string City;
         private string Street;
@@ -317,7 +302,20 @@ class Program
         public int house { get { return House; } set { House = value; } }
         public int appartment { get { return Appartment; } set { Appartment = value; } }
 
-        
+        /*public void SetHomeAdr()// Ввод адреса для доставки
+        {
+            Console.WriteLine("Вы выбрали доставку на дом, введите свой адрес для доставки :");
+            Console.WriteLine("Введите индекс вашего населеннго пункта :");
+            indexcity = Console.ReadLine();
+            Console.WriteLine("Введите ваш город :");
+            city = Console.ReadLine();
+            Console.WriteLine("Введите вашу улицу :");
+            street = Console.ReadLine();
+            Console.WriteLine("Введите номер дома :");
+            house = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Введите номер квартиры:");
+            appartment = Convert.ToInt32(Console.ReadLine());
+        }*/
         public Adress(string index, string city, string street, int house, int appart)
         {
             indexcity = index;
@@ -364,7 +362,7 @@ class Program
 
     public class User
     {
-        public Adress adress;
+        //public Adress adress;
 
         public string Name;
         public string Family;
@@ -376,17 +374,18 @@ class Program
             Family = family;
             Telephone = telephone;
         }
-       /* User user = new User();
-        Console.WriteLine("Введите ваше имя : ");
-        user.Name = Console.ReadLine();
-        Console.WriteLine("Введите вашу фамилию : ");
-        user.Family = Console.ReadLine();
-        Console.WriteLine("Введите ваш номер телефона :");
-        user.Telephone = Console.ReadLine();*/
+       
     }
     class Korziva
     {
         public string NameTov;
+        public string MuchTov;
+
+        public Korziva(string nameTov, string muchTov)
+        {
+            NameTov = nameTov;
+            MuchTov = muchTov;
+        }
     }
 
 }
