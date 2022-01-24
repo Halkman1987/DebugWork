@@ -26,27 +26,7 @@ class Program
             return SortFamEvent(a);
         }
     }
-    static void Sorted(int choice)
-    {
-        switch (choice)
-        {
-            case 1:
-                Family.Sort();
-                foreach (string family in Family)
-                {
-                    Console.WriteLine(family);
-                }
-                break;
-            case 2:
-                Family.Sort();
-                Family.Reverse();
-                foreach (string i in Family)
-                {
-                    Console.WriteLine(i);
-                }
-                break;
-        }
-    }
+   
     public static void Main(string[] args)
     {
         List<string> Family = new List<string>();
