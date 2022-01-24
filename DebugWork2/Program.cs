@@ -14,7 +14,6 @@ namespace FinalTask
 
             }
         }
-       
         static void Main()
         {
 
