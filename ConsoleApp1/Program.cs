@@ -1,93 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-
-class Program
+namespace DebugWork1
 {
-    public class MyExciption : Exception
-    {
-        public MyExciption() : base("Зачем вы ввели не заданные числа???")
-        {
-           
-        }
-    }
-    public class SortList
-    {
-        public delegate string[] SortFamDel(string[] a);
-        public event SortFamDel SortFamEvent;
-        public void Read()
-        {
-            Console.WriteLine("Введите число 1 или 2");
-            int num = Convert.ToInt32(Console.ReadLine());
-            if (num != 1 && num != 2) throw new FormatException();
-            Sorted(num);
-        }
-        public string[] NumberEnter(string[] a)
-        {
-            return SortFamEvent(a);
-        }
-    }
-   
-    public static void Main(string[] args)
-    {
-        List<string> Family = new List<string>();
-        Family.Add("Гринн");
-        Family.Add("Огородников");
-        Family.Add("Шварцнеггер");
-        Family.Add("Коломбо");
-        Family.Add("Прист");
-        Family.Add("Катллер");
-        
-        SortList sortList = new SortList();
-        SortList.SortFamDel sortFamDel = new SortList.SortFamDel();
-        sortList.SortFamEvent += Sorted;
 
-        sortList.Read();
 
-        int choice = Convert.ToInt32(Console.ReadLine());
-        try
+    class Program
+    {
+        static ILogger logger { get;  set; }
+        public static void Main(string[] args)
         {
-            sortList.Read();
-        }
-        catch (MyExciption ex)
-        {
-            Console.WriteLine(ex.Message);
-            Console.WriteLine("Зачем вы ввели не заданные числа???");
-        }
-        catch (FormatException e) { Console.WriteLine(e.Message); }
-        //-------------------------------------------------------------------------------------------------------------
-        Exception[] exc = { new FormatException("Это сработало Формат Эксэпшн"), new ArgumentNullException(), new MyExciption(), new RankException("Опять этот РанкЭксэпшн"), new TimeoutException() };
-        foreach (Exception ex in exc)
-        {
+           logger = new Logger();
+            var calcp = DebugWork1.CalculateP(logger);
+            var calcm =
             try
             {
-                throw ex;
+                Console.WriteLine("Введите первое число : ");
+                double x = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Введите второе число : ");
+                double y = Convert.ToDouble(Console.ReadLine());
+                var resultp = calc.Calc(x, y);
+                var resultm = calc2.Calc(x, y);
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.WriteLine();
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Результатом сложения является чиcло : {resultp}");
+
+                Console.ResetColor();
+                //Console.BackgroundColor = ConsoleColor.Red;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Результатом вычитания является чиcло : {resultm}");
+                Console.ResetColor();
+
+
             }
-            catch (MyExciption ex0)
+            catch (FormatException ex)
             {
-                Console.WriteLine(ex0.Message);
+                Console.WriteLine(" Вы ввели некорректные значения ");
+                Console.WriteLine(ex.Message);
+
             }
-            catch (FormatException ex1)
+            finally
             {
-                Console.WriteLine(ex1.Message);
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.WriteLine(" Вы ввели корректные значения , тем самым не вызвал исключения формата данных! ");
+                Console.ResetColor();
             }
-            catch (ArgumentNullException ex2)
-            {
-                Console.WriteLine(ex2.Message);
-            }
-            catch (TimeoutException ex3)
-            {
-                Console.WriteLine(ex3.Data.Values);
-            }
-            catch (RankException ex4)
-            {
-                Console.WriteLine(ex4.GetType());
-                Console.WriteLine(ex4.Message);
-            }
+
+
         }
-        //-------------------------------------------------------------------------------------------------------------       
 
     }
+    public interface ILogger
+    {
+        void Event(string message);
+        void Error(string message);
+    }
+    public class Logger : ILogger
+    {
+        public void Error(string message)
+        {
+            Console.WriteLine(message);
+        }
 
+        public void Event(string message)
+        {
+            Console.WriteLine(message); 
+        }
+    }
+    public interface ICalc<T,Z>
+    {
+        public double Calc(T x, T y);
+    }
 }
-
-
