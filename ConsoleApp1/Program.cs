@@ -3,111 +3,69 @@ using System.Collections.Generic;
 
 class Program
 {
-    public class MyExciption : Exception
-    {
-        public MyExciption() : base("Зачем вы ввели не заданные числа???")
-        {
-           
-        }
-    }
-    public class SortList
-    {
-        public delegate string[] SortFamDel(string[] a);
-        public event SortFamDel SortFamEvent;
-        public void Read()
-        {
-            Console.WriteLine("Введите число 1 или 2");
-            int num = Convert.ToInt32(Console.ReadLine());
-            if (num != 1 && num != 2) throw new FormatException();
-            Sorted(num);
-        }
-        public string[] NumberEnter(string[] a)
-        {
-            return SortFamEvent(a);
-        }
-    }
-    static void Sorted(int choice)
-    {
-        switch (choice)
-        {
-            case 1:
-                Family.Sort();
-                foreach (string family in Family)
-                {
-                    Console.WriteLine(family);
-                }
-                break;
-            case 2:
-                Family.Sort();
-                Family.Reverse();
-                foreach (string i in Family)
-                {
-                    Console.WriteLine(i);
-                }
-                break;
-        }
-    }
-    public static void Main(string[] args)
-    {
-        List<string> Family = new List<string>();
-        Family.Add("Гринн");
-        Family.Add("Огородников");
-        Family.Add("Шварцнеггер");
-        Family.Add("Коломбо");
-        Family.Add("Прист");
-        Family.Add("Катллер");
-        
-        SortList sortList = new SortList();
-        SortList.SortFamDel sortFamDel = new SortList.SortFamDel();
-        sortList.SortFamEvent += Sorted;
 
-        sortList.Read();
 
-        int choice = Convert.ToInt32(Console.ReadLine());
-        try
+    static void Main()
+    {
+        Calc Calc = new Calc();
+        Operate operation = Calc.Nothing;
+        char c = default;
+        char[] signs = new char[] { '+', '-', '/', '*', 'в' };
+        Console.WriteLine("Добро пожаловать в программу калькулятор!");
+        Console.Write("Введите число: ");
+        decimal a = 0;
+        decimal b = 0;
+        a = a.GetN(decimal.MinValue, decimal.MaxValue);
+        bool check = true;
+        decimal? result;
+        do
         {
-            sortList.Read();
-        }
-        catch (MyExciption ex)
-        {
-            Console.WriteLine(ex.Message);
-            Console.WriteLine("Зачем вы ввели не заданные числа???");
-        }
-        catch (FormatException e) { Console.WriteLine(e.Message); }
-        //-------------------------------------------------------------------------------------------------------------
-        Exception[] exc = { new FormatException("Это сработало Формат Эксэпшн"), new ArgumentNullException(), new MyExciption(), new RankException("Опять этот РанкЭксэпшн"), new TimeoutException() };
-        foreach (Exception ex in exc)
-        {
+            Console.Write("Введите число: ");
+            b = b.GetN(decimal.MinValue, decimal.MaxValue);
+            Console.Write("Введите операцию (для выхода из программы - 'в'): ");
+            c = c.GetC(signs);
+            switch (c)
+            {
+                case '+': { operation = Calc.Add; break; }
+                case '-': { operation = Calc.Subtract; break; }
+                case '/': { operation = Calc.Divide; break; }
+                case '*': { operation = Calc.Multiply; break; }
+                case 'в': { check = false; continue; }
+            }
             try
             {
-                throw ex;
+                operation -= Calc.Nothing;
+                result = operation?.Invoke(a, b);
+                Console.WriteLine("{0} {1} {2} = {3}", a, c, b, result);
+                a = result ?? a;
             }
-            catch (MyExciption ex0)
+            catch (DivideByZeroException)
             {
-                Console.WriteLine(ex0.Message);
+                Console.WriteLine("Что-ж вы, батенька, на ноль то делите?!");
             }
-            catch (FormatException ex1)
-            {
-                Console.WriteLine(ex1.Message);
-            }
-            catch (ArgumentNullException ex2)
-            {
-                Console.WriteLine(ex2.Message);
-            }
-            catch (TimeoutException ex3)
-            {
-                Console.WriteLine(ex3.Data.Values);
-            }
-            catch (RankException ex4)
-            {
-                Console.WriteLine(ex4.GetType());
-                Console.WriteLine(ex4.Message);
-            }
+            catch (Exception ex)
+            { Console.WriteLine(ex.ToString()); }
         }
-        //-------------------------------------------------------------------------------------------------------------       
-
+        while (check);
+        Console.ReadKey();
     }
 
+    public delegate decimal Operate(decimal a, decimal b);
+    public interface ICalc
+    {
+        decimal Add(decimal a, decimal b);
+        decimal Multiply(decimal a, decimal b);
+        decimal Subtract(decimal a, decimal b);
+        decimal Divide(decimal a, decimal b);
+    }
+    class Calc : ICalc
+    {
+        public decimal Add(decimal a, decimal b) { return a + b; }
+        public decimal Multiply(decimal a, decimal b) { return a * b; }
+        public decimal Subtract(decimal a, decimal b) { return a - b; }
+        public decimal Divide(decimal a, decimal b) { return a / b; }
+        public decimal Nothing(decimal a, decimal b) { return 0; }
+    }
 }
 
 
