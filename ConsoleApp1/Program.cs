@@ -18,8 +18,22 @@ namespace DebugWork1
             {
                 do
                 {
+                   
                     Console.WriteLine("Введите первое число : ");
-                    double x = Convert.ToDouble(Console.ReadLine());
+                    string xx = Console.ReadLine();
+                    double x = 0;
+                    var vern = double.TryParse(xx, out double resd);
+                    if (vern)
+                    {
+                        
+                    }
+                    else
+                    {
+                        Console.WriteLine("Вы ввели неправильный символ !");
+                    }
+                    
+                    x = resd;
+
                     Console.WriteLine("Введите второе число : ");
                     double y = Convert.ToDouble(Console.ReadLine());
                     Console.WriteLine("Выберите операцию + или - :");
