@@ -13,6 +13,12 @@ namespace DebugWork1
     {
         public class Contact // модель класса
         {
+            public Contact(long phoneNumber, string email)
+            {
+                PhoneNumber = phoneNumber;
+                Email = email;
+            }
+
             public Contact(string name, string lastName, long phoneNumber, string email) // метод-конструктор
             {
                 Name = name;
