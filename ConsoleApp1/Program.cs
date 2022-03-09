@@ -11,7 +11,21 @@ namespace DebugWork1
 
     class Program
     {
-        
+        public class Contact // модель класса
+        {
+            public Contact(string name, string lastName, long phoneNumber, string email) // метод-конструктор
+            {
+                Name = name;
+                LastName = lastName;
+                PhoneNumber = phoneNumber;
+                Email = email;
+            }
+
+            public string Name { get; }
+            public string LastName { get; }
+            public long PhoneNumber { get; }
+            public string Email { get; }
+        }
 
         List<string> lines = File.ReadAllLines("test.txt").ToList();
         public static void WriteAllContacts()
@@ -25,23 +39,38 @@ namespace DebugWork1
             ["Игорь"] = new Contact(79990000000, "igor@example.com"),
             ["Андрей"] = new Contact(79990000001, "andrew@example.com"),
         };
-        public class Contact // модель класса
-        {
-            public Contact(long phoneNumber, String email) // метод-конструктор
-            {
-                PhoneNumber = phoneNumber;
-                Email = email;
-            }
-            public long PhoneNumber { get; set; }
-            public String Email { get; set; }
-        }
         static ILogger logger { get;  set; }
+       
         public static void Main(string[] args)
         {
+            var phoneBook = new List<Contact>();
+            phoneBook.Add(new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Довлатов", 79990000010, "serge@example.com"));
+            phoneBook.Add(new Contact("Анатолий", "Карпов", 79990000011, "anatoly@example.com"));
+            phoneBook.Add(new Contact("Валерий", "Леонтьев", 79990000012, "valera@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Брин", 799900000013, "serg@example.com"));
+            phoneBook.Add(new Contact("Иннокентий", "Смоктуновский", 799900000013, "innokentii@example.com"));
+
+            while (true)
+            {
+                var keyChar = Console.ReadKey().KeyChar;
+                var pars = Int32.TryParse(keyChar.ToString(), out int keyP);
+                if(!pars || keyP <1 || keyP > 3)
+                {
+                    Console.WriteLine("No page");
+                }
+                else
+                {
+                    var pagE = phoneBook.Skip((keyP-1)*2).Take(2);
+                    Console.WriteLine();
+                    foreach(var par in pagE)
+                        Console.WriteLine(par.Name+" "+par.LastName+" "+par.PhoneNumber);
+                }
+            }
+//------------------------------------------------------------------------------------------------------------------
             string text = File.ReadAllText("C:\\Users\\User\\Desktop\\Text1.txt");
             foreach (var w in text)
                 Console.WriteLine(w);
-                // Покажем весь список
                 Console.WriteLine("Текущий список контактов: ");
             WriteAllContacts();
 
