@@ -11,6 +11,10 @@ namespace DebugWork1
 
     class Program
     {
+        public class Classroom
+        {
+            public List<string> Students = new List<string>();
+        }
         public class Contact // модель класса
         {
             public Contact(long phoneNumber, string email)
@@ -29,7 +33,7 @@ namespace DebugWork1
 
             public string Name { get; }
             public string LastName { get; }
-            public long PhoneNumber { get; }
+            public long PhoneNumber { get; set; }
             public string Email { get; }
         }
 
@@ -49,6 +53,32 @@ namespace DebugWork1
        
         public static void Main(string[] args)
         {
+            var classes = new[]
+            {
+               new Classroom { Students = {"Evgeniy", "Sergey", "Andrew"}, },
+               new Classroom { Students = {"Anna", "Viktor", "Vladimir"}, },
+               new Classroom { Students = {"Bulat", "Alex", "Galina"}, }
+            };
+            foreach (var clazz in classes)
+            {
+                foreach(var st in clazz.Students)
+                    Console.WriteLine(st);
+            }
+               
+               
+
+           // var allStudents = GetAllStudents(classes);
+
+           // Console.WriteLine(string.Join(" ", allStudents));
+           /* static string[] GetAllStudents(Classroom[] classes)
+            {
+                var AllSt = classes
+                            ;
+
+
+                return AllSt;
+            }*/
+
             var phoneBook = new List<Contact>();
             phoneBook.Add(new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"));
             phoneBook.Add(new Contact("Сергей", "Довлатов", 79990000010, "serge@example.com"));
